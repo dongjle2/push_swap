@@ -6,33 +6,70 @@ void	radix_sort(int len, t_both_stacks *x, int cur_bit);
 void	exec_ops(t_both_stacks *x, t_stack *cur_stack, t_bit_ops ops, int cur_bit);
 void	normalize(t_stack *a);
 int		get_ternary_len(long long num);
+void	normalize_2(t_both_stacks *x, t_norm2 *n);
+
+void	push_a(t_both_stacks *x)
+{
+	if (x->a.top != 0)
+		return ;
+	while (-1 < x->a.top)
+		pa(&x->a, &x->b, x->mode);
+}
 
 int	main(int argc, char *argv[])
 {
 	t_both_stacks stacks;
 	t_cnt_instructions	c;
+	t_norm2	*n;
 
 	init_stacks(&stacks, argc - 1);
 	fill_up_a(&stacks.a, argc - 1, argv);
-	for (int i = 0; i < argc - 1; i ++)
-	{
-		printf("%d ", stacks.a.arr[i]);
-	}
-	printf("\n");
 	normalize(&stacks.a);
+	// printf("1 a arr");
+	// for (int i = 0; i < argc - 1; i ++)
+	// {
+	// 	printf("%lld ", stacks.a.arr[i]);
+	// }
+	// printf("\n");
+	// long long	*tmp;
+	// tmp = ft_calloc(stacks.a.size, sizeof(long long));
+	// for (int i = 0; i < argc - 1; i ++)
+	// {
+	// 	tmp[i] = stacks.a.arr[i];
+	// }
+	n = ft_calloc(stacks.a.size, sizeof(t_norm2));
 	for (int i = 0; i < argc - 1; i ++)
 	{
-		printf("%d ", stacks.a.arr[i]);
+		n[i].real = stacks.a.arr[i];
 	}
-	printf("\n");
-	//	// simple_sort(&a, &b, &c);
 	radix_sort(get_ternary_len(argc - 1), &stacks, 0);
-	// printf("%d %d %d %d %d %d %d %d\n", stacks.a.arr[0], stacks.a.arr[1], stacks.a.arr[2], stacks.a.arr[3], stacks.a.arr[4], stacks.a.arr[5], stacks.a.arr[6], stacks.a.arr[7]);
-	for (int i = 0; i < argc - 1; i ++)
-	{
-		printf("%d ", stacks.b.arr[i]);
-	}
-	printf("\n");	// free(a.arr);
+	push_a(&stacks);
+	// printf("b arr");
+	// for (int i = 0; i < argc - 1; i ++)
+	// {
+	// 	printf("%lld ", stacks.b.arr[i]);
+	// }
+	// printf("\n");
+	normalize_2(&stacks, n);
+	stacks.mode = 1;
+	radix_sort(get_ternary_len(argc - 1), &stacks, 0);
+	push_a(&stacks);
+	// printf("b arr");
+	// for (int i = 0; i < argc - 1; i ++)
+	// {
+	// 	printf("%lld ", stacks.b.arr[i]);
+	// }
+	// printf("\n");
+	// for (int i = 0; i < argc - 1; i ++)
+	// {
+	// 	for (int j = 0; j < argc - 1; j++)
+	// 	{
+	// 		if (stacks.b.arr[i] == n[j].fake)
+	// 			printf("%lld ", n[j].real);
+	// 	}
+	// }
+	// printf("\n");
+	// printf("\n");
 	// free(b.arr);
 	// free(t.tmp_a.arr);
 	// free(t.tmp_b.arr);
@@ -57,8 +94,9 @@ void	normalize(t_stack *a)
 	quick_sort(x, 0, a->size - 1);
 	i = -1;
 	while (++i < a->size)
-		ranks[x[i].idx] = i;
+		ranks[x[i].idx] = i;	//
 	i = -1;
+	// printf("ranks\n");
 	// for (int i = 0; i < a->size; i++)
 	// 	printf("%lld ", ranks[i]);
 	// printf("\n");
@@ -66,6 +104,53 @@ void	normalize(t_stack *a)
 		a->arr[i] = ranks[i];
 	free(x);
 	free(ranks);
+}
+
+void	normalize_2(t_both_stacks *x, t_norm2 *n)
+{
+	int			i;
+	int			j;
+	t_stack		*cur;
+
+	if (x->a.top == -1)
+		cur = &x->b;
+	else
+		cur = &x->a;
+	i = 0;
+	while (i < x->a.size)
+	{
+		j = 0;
+		while (j < x->a.size)
+		{
+			if (i == n[j].real)
+				n[j].fake = cur->arr[i];
+			j++;
+		}
+		i++;
+	}
+	// printf("original \n");
+	// for (int i = 0; i < x->a.size; i ++)
+	// {
+	// 	printf("%lld ", n[i].real);
+	// }
+	// printf("\n");
+	// printf("fake \n");
+	// for (int i = 0; i < x->a.size; i ++)
+	// {
+	// 	printf("%lld ", n[i].fake);
+	// }
+	// printf("\n");
+	// i = -1;
+	// while (++i < x->a.size)
+	// 	cur->arr[i] = n[i].fake;
+	// printf("arr \n");
+	// for (int i = 0; i < x->a.size; i ++)
+	// {
+	// 	printf("%lld ", cur->arr[i]);
+	// }
+	// printf("\n");
+	// while (++i < a->size)
+	// 	tmp[i] = order[i];
 }
 
 int	get_ternary_len(long long num)
@@ -85,36 +170,21 @@ void	set_ops(char stack, t_bit_ops *ops)
 {
 	if (stack == 'a')
 	{
-		ops->bit_0 = &ra;
-		ops->bit_2[0] = &pb;
-		ops->bit_2[1] = &rb;
-		ops->bit_1 = &pb;
+		ops->bit_0 = &pb;
+		ops->bit_1[0] = &pb;
+		ops->bit_1[1] = &rb;
+		ops->bit_2[0] = &ra;
+		ops->bit_2[1] = &pb;
 	}
 	else
 	{
-		ops->bit_0 = &rb;
-		ops->bit_2[0] = &pa;
-		ops->bit_2[1] = &ra;
-		ops->bit_1 = &pa;
+		ops->bit_0 = &pa;
+		ops->bit_1[0] = &pa;
+		ops->bit_1[1] = &ra;
+		ops->bit_2[0] = &rb;
+		ops->bit_2[1] = &pa;
 	}
 	return ;
-}
-
-void	clear_stack(t_both_stacks *x, t_stack *cur_stack, t_bit_ops ops, int cur_bit)
-{
-	int	cnt;
-
-	cnt = 0;
-	// printf("clear_stack, cur_bit %d\n", cur_bit);
-	while (cnt++ < cur_stack->size)
-	{
-		exec_ops(x, cur_stack, ops, cur_bit);
-	}
-	while (-1 < cur_stack->top)
-	{
-		ops.bit_1(&x->a, &x->b);
-		// printf("aa\n");
-	}
 }
 
 void	exec_ops(t_both_stacks *x, t_stack *cur_stack, t_bit_ops ops, int cur_bit)
@@ -129,20 +199,36 @@ void	exec_ops(t_both_stacks *x, t_stack *cur_stack, t_bit_ops ops, int cur_bit)
 	// printf("cur_bit, top %d ,%d\n", cur_bit, cur_stack->arr[cur_stack->top]);
 	if (tmp % 3 == 0)
 	{
-		ops.bit_0(&x->a, &x->b);
-		// ops.bit_0[1](&x->a, &x->b);
+		ops.bit_0(&x->a, &x->b, x->mode);
 	}
 	else if (tmp % 3 == 1)
 	{
-		ops.bit_1(&x->a, &x->b);
-		// ops.bit_1[1](&x->a, &x->b);
+		ops.bit_1[0](&x->a, &x->b, x->mode);
+		ops.bit_1[1](&x->a, &x->b, x->mode);
 	}
 	else
 	{
-		ops.bit_2[0](&x->a, &x->b);
-		ops.bit_2[1](&x->a, &x->b);
+		ops.bit_2[0](&x->a, &x->b, x->mode);
+		// ops.bit_2[1](&x->a, &x->b);
 	}
 	return ;
+}
+
+void	clear_stack(t_both_stacks *x, t_stack *cur_stack, t_bit_ops ops, int cur_bit)
+{
+	int	cnt;
+	int	i;
+
+	cnt = 0;
+	// printf("clear_stack, cur_bit %d\n", cur_bit);
+	while (cnt++ < cur_stack->size)
+	{
+		exec_ops(x, cur_stack, ops, cur_bit);
+	}
+	while (-1 < cur_stack->top)
+	{
+		ops.bit_2[1](&x->a, &x->b, x->mode);
+	}
 }
 
 void	radix_sort(int len, t_both_stacks *x, int cur_bit)
@@ -165,8 +251,22 @@ void	radix_sort(int len, t_both_stacks *x, int cur_bit)
 		set_ops('b', &ops);
 	}
 	clear_stack(x, cur_stack, ops, cur_bit);
-	// printf("%d %d %d %d %d %d %d %d\n", x->a.arr[0], x->a.arr[1], x->a.arr[2], x->a.arr[3], x->a.arr[4], x->a.arr[5], x->a.arr[6], x->a.arr[7]);
-	// printf("%d %d %d %d %d %d %d %d\n", x->b.arr[0], x->b.arr[1], x->b.arr[2], x->b.arr[3], x->b.arr[4], x->b.arr[5], x->b.arr[6], x->b.arr[7]);
+	// printf("in \n");
+	// if (cur_bit % 2 == 0)
+	// {
+	// 	for (int i = 0; i < x->b.size; i ++)
+	// 	{
+	// 		printf("%d ", x->b.arr[i]);
+	// 	}
+	// }
+	// else
+	// {
+	// 	for (int i = 0; i < x->b.size; i ++)
+	// 	{
+	// 		printf("%d ", x->a.arr[i]);
+	// 	}
+	// }
+	// printf("\n");
 	radix_sort(len, x, cur_bit + 1);
 	return ;
 }

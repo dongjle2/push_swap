@@ -29,46 +29,46 @@ int	find_max(t_stack *x)
 	return (idx);
 }
 
-void	max_elem_to_b(t_stack *a, t_stack *b, t_cnt_instructions *c)
-{
-	int		max_idx;
-	void	(*op)(t_stack *a, t_stack *b);
-	int		num_op;
+// void	max_elem_to_b(t_stack *a, t_stack *b, t_cnt_instructions *c)
+// {
+// 	int		max_idx;
+// 	void	(*op)(t_stack *a, t_stack *b);
+// 	int		num_op;
 
-	max_idx = find_max(a);
-	if (max_idx < a->top / 2)
-		op = rra;
-	else
-		op = ra;
-	if (op == rra)
-		num_op = max_idx + 1;
-	else
-		num_op = a->top - max_idx;
+// 	max_idx = find_max(a);
+// 	if (max_idx < a->top / 2)
+// 		op = rra;
+// 	else
+// 		op = ra;
+// 	if (op == rra)
+// 		num_op = max_idx + 1;
+// 	else
+// 		num_op = a->top - max_idx;
 
-	while (num_op)
-	{
-		op(a, b);
-		num_op--;
-	}
-	pb(a, b);
-}
+// 	while (num_op)
+// 	{
+// 		op(a, b);
+// 		num_op--;
+// 	}
+// 	pb(a, b);
+// }
 
-void	simple_sort(t_stack *a, t_stack *b, t_cnt_instructions *c)
-{
-	// printf("%d\n", a->top);
-	if (a->top < 3)
-	{
-		sort_three_elements_a(a);
-		return ;
-	}
-	else
-	{
-		max_elem_to_b(a, b, c);
-		simple_sort(a, b, c);
-		pa(a, b);
-		ra(a, b);
-	}
-}
+// void	simple_sort(t_stack *a, t_stack *b, t_cnt_instructions *c)
+// {
+// 	// printf("%d\n", a->top);
+// 	if (a->top < 3)
+// 	{
+// 		sort_three_elements_a(a);
+// 		return ;
+// 	}
+// 	else
+// 	{
+// 		max_elem_to_b(a, b, c);
+// 		simple_sort(a, b, c);
+// 		pa(a, b);
+// 		ra(a, b);
+// 	}
+// }
 /*
 
 int	a_to_b(t_stack *a, t_stack *b, t_tmp_stacks *t)

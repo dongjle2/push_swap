@@ -11,15 +11,16 @@ static void	swap(long long *i, long long *j)
 	*j = tmp;
 }
 //volatile
-void	sa(t_stack *a, t_stack *b)
+void	sa(t_stack *a, t_stack *b, char mode)
 {
 	b = b;
 	if (1 < a->top)
 		swap(&(a->arr[a->top]), &(a->arr[a->top - 1]));
-	// write(1, "sa\n", 3);
+	if (mode == 1)
+		write(1, "sa\n", 3);
 }
 
-void	pa(t_stack *a, t_stack *b)
+void	pa(t_stack *a, t_stack *b, char mode)
 {
 	if (-1 < b->top)
 	{
@@ -28,10 +29,11 @@ void	pa(t_stack *a, t_stack *b)
 		b->arr[b->top] = 0;
 		b->top--;
 	}
-	// write(1, "pa\n", 3);
+	if (mode == 1)
+		write(1, "pa\n", 3);
 }
 
-void	ra(t_stack *a, t_stack *b)
+void	ra(t_stack *a, t_stack *b, char mode)
 {
 	int	tmp;
 	int	i;
@@ -45,10 +47,11 @@ void	ra(t_stack *a, t_stack *b)
 		i--;
 	}
 	a->arr[0] = tmp;
-	// write(1, "ra\n", 3);
+	if (mode == 1)
+		write(1, "ra\n", 3);
 }
 
-void	rra(t_stack *a, t_stack *b)
+void	rra(t_stack *a, t_stack *b, char mode)
 {
 	int	tmp;
 	int	i;
@@ -62,5 +65,6 @@ void	rra(t_stack *a, t_stack *b)
 		i++;
 	}
 	a->arr[a->top] = tmp;
-	// write(1, "rra\n", 4);
+	if (mode == 1)
+		write(1, "rra\n", 4);
 }
