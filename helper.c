@@ -6,7 +6,7 @@
 /*   By: dongjle2 <dongjle2@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 23:54:37 by dongjle2          #+#    #+#             */
-/*   Updated: 2024/06/28 01:41:23 by dongjle2         ###   ########.fr       */
+/*   Updated: 2024/06/28 21:47:58 by dongjle2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	init_stacks(t_both_stacks *x, int size)
 
 static	int	isspace(const int c);
 
-int	ft_atoll(const char *str)
+long long	ft_atoll(const char *str)
 {
 	int			sign;
 	long long	num;
