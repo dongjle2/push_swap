@@ -6,7 +6,7 @@
 /*   By: dongjle2 <dongjle2@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 23:54:37 by dongjle2          #+#    #+#             */
-/*   Updated: 2024/06/28 21:47:58 by dongjle2         ###   ########.fr       */
+/*   Updated: 2024/07/01 22:06:56 by dongjle2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	init_stacks(t_both_stacks *x, int size)
 	x->b.top = -1;
 	x->b.size = size;
 	x->mode = 0;
-	// x->cur_stack = 'a';
+	x->cur_stack = &x->a;
 }
 
 // void	init_tmp(t_tmp_stacks *t, int size)

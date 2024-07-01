@@ -24,6 +24,7 @@ typedef struct s_both_stacks
 {
 	t_stack	a;
 	t_stack	b;
+	t_stack	*cur_stack;
 	char	mode;
 }	t_both_stacks;
 
@@ -37,8 +38,6 @@ typedef struct s_cnt_instructions
 
 typedef struct s_bit_ops
 {
-	// void	(*bit_0)(t_stack *a, t_stack *b);
-	// void	(*bit_1[2])(t_stack *a, t_stack *b);
 	void	(*bit_1[2])(t_stack *a, t_stack *b, char mode);
 	void	(*bit_0)(t_stack *a, t_stack *b, char mode);
 	void	(*bit_2[2])(t_stack *a, t_stack *b, char mode);
