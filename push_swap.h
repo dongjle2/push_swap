@@ -20,17 +20,10 @@ typedef struct s_input
 	long long	idx;
 }	t_input;
 
-typedef struct s_norm2
-{
-	long long	real;
-	long long	fake;
-}	t_norm2;
-
 typedef struct s_both_stacks
 {
 	t_stack	a;
 	t_stack	b;
-	// char	cur_stack;
 	char	mode;
 }	t_both_stacks;
 

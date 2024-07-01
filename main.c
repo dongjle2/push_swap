@@ -7,7 +7,7 @@ void	radix_sort(int len, t_both_stacks *x, int cur_bit);
 void	exec_ops(t_both_stacks *x, t_stack *cur_stack, t_bit_ops ops, int cur_bit);
 void	normalize(t_stack *a);
 int		get_ternary_len(long long num);
-void	normalize_2(t_both_stacks *x, t_both_stacks *fake, t_norm2 *n);
+void	normalize_2(t_both_stacks *x, t_both_stacks *fake);
 
 void	push_a(t_both_stacks *x)
 {
@@ -17,83 +17,72 @@ void	push_a(t_both_stacks *x)
 		pa(&x->a, &x->b, x->mode);
 }
 
+void	init_fake_stacks(t_both_stacks *x, int size)
+{
+	x->a.arr = ft_calloc(size, sizeof(long long));
+	if (x->a.arr == NULL)
+		exit(-1);
+	x->b.arr = ft_calloc(size, sizeof(long long));
+	if (x->b.arr == NULL)
+		exit (-1);
+	x->a.top = size - 1;
+	x->a.size = size;
+	x->b.top = -1;
+	x->b.size = size;
+	x->mode = 0;
+}
+
 int	main(int argc, char *argv[])
 {
 	t_both_stacks stacks;
 	t_both_stacks fake_stacks;
 	t_cnt_instructions	c;
-	t_norm2	*n;
 
 	init_stacks(&stacks, argc - 1);
+	init_fake_stacks(&fake_stacks, argc - 1);
 	fill_up_a(&stacks.a, argc - 1, argv);
 	normalize(&stacks.a);
-	// memcpy(&fake_stacks, &stacks, sizeof(stacks));
-	fake_stacks.a.arr = (long long *)malloc(sizeof(long long) * 11);
-	fake_stacks.b.arr = (long long *)malloc(sizeof(long long) * 11);
-	memcpy(fake_stacks.a.arr, stacks.a.arr, sizeof(long long) * 11);
-	memcpy(fake_stacks.b.arr, stacks.b.arr, sizeof(long long) * 11);
-	// fake_stacks.a.arr = stacks.a.arr;
-	// fake_stacks.b.arr = stacks.b.arr;
-	// printf("1 a arr");
+	memcpy(fake_stacks.a.arr, stacks.a.arr, sizeof(long long) * (argc - 1));
+	memcpy(fake_stacks.b.arr, stacks.b.arr, sizeof(long long) * (argc - 1));
+	// printf("stacks a\n");
 	// for (int i = 0; i < argc - 1; i ++)
 	// {
 	// 	printf("%lld ", stacks.a.arr[i]);
 	// }
 	// printf("\n");
-	// n = ft_calloc(stacks.a.size, sizeof(t_norm2));
+	radix_sort(get_ternary_len(argc - 1), &fake_stacks, 0);
+	push_a(&stacks);
+	// printf("fake a\n");
+	// for (int i = 0; i < argc - 1; i++)
+	// {
+	// 	printf("%lld ", fake_stacks.a.arr[i]);
+	// }
+	// printf("\n");
+	// printf("%d\n", stacks.a.top);
+	// printf("%d\n", stacks.b.top);
+	// printf("\n");
+	normalize_2(&stacks, &fake_stacks);
+	stacks.mode = 1;
+	// printf("\n");
+	// printf("fake\n");
 	// for (int i = 0; i < argc - 1; i ++)
 	// {
-	// 	n[i].real = stacks.a.arr[i];
+	// 	printf("%lld ", fake_stacks.a.arr[i]);
 	// }
-	// radix_sort(get_ternary_len(argc - 1), &stacks, 0);
-	// push_a(&stacks);
-	printf("b arr");
-	for (int i = 0; i < argc - 1; i++)
-	{
-		printf("%lld ", stacks.a.arr[i]);
-	}
-	printf("\n");
-	for (int i = 0; i < 3; i++)
-	{
-		fake_stacks.a.arr[i] = 0;
-		fake_stacks.b.arr[i] = 0;
-	}
-	fake_stacks.a.top = -1;
-	fake_stacks.b.top = -1;
-	printf("%d\n", stacks.a.top);
-	printf("%d\n", stacks.b.top);
-	printf("b arr");
-	for (int i = 0; i < argc - 1; i++)
-	{
-		printf("%lld ", stacks.a.arr[i]);
-	}
-	printf("\n");
-	// normalize_2(&stacks, &fake_stacks, n);
-	// fake_stacks.mode = 1;
+	// printf("\n");
 	// printf("norm2\n");
 	// for (int i = 0; i < argc - 1; i ++)
 	// {
-	// 	printf("%lld ", fake_stacks.b.arr[i]);
+	// 	printf("%lld ", stacks.a.arr[i]);
 	// }
 	// printf("\n");
-	// radix_sort(get_ternary_len(argc - 1), &fake_stacks, 0);
-	// push_a(&fake_stacks);
-	// printf("b arr");
+	radix_sort(get_ternary_len(argc - 1), &stacks, 0);
+	push_a(&fake_stacks);
+	// printf("a arr");
 	// for (int i = 0; i < argc - 1; i ++)
 	// {
-	// 	printf("%lld ", stacks.b.arr[i]);
+	// 	printf("%lld ", stacks.a.arr[i]);
 	// }
-	// printf("\n");
-	// for (int i = 0; i < argc - 1; i ++)
-	// {
-	// 	for (int j = 0; j < argc - 1; j++)
-	// 	{
-	// 		if (stacks.b.arr[i] == n[j].fake)
-	// 			printf("%lld ", n[j].real);
-	// 	}
-	// }
-	// printf("\n");
-	// printf("\n");
 	// free(b.arr);
 	// free(t.tmp_a.arr);
 	// free(t.tmp_b.arr);
@@ -129,75 +118,48 @@ void	normalize(t_stack *a)
 	free(ranks);
 }
 
-void	normalize_2(t_both_stacks *x, t_both_stacks *fake, t_norm2 *n)
+void	normalize_2(t_both_stacks *x, t_both_stacks *fake)
 {
 	int			i;
 	int			j;
 	t_stack		*cur;
+	t_stack		*fake_cur;
+	long long	*n;
 
-	printf("%d\n", x->b.top);
-	printf("%lld\n", x->b.arr[0]);
 	if (x->a.top == -1)
+	{
 		cur = &x->b;
+		fake_cur = &fake->b;
+	}
 	else
+	{
 		cur = &x->a;
-	i = 0;
-	printf("cur \n");
-	for (int i = 0; i < x->a.size; i ++)
-	{
-		printf("%lld ", x->b.arr[i]);
+		fake_cur = &fake->a;
 	}
-	printf("\n");
-	while (i < x->a.size)
+	n = ft_calloc(x->a.size, sizeof(long long));
+	for (int i = 0; i < cur->size; i++)
 	{
-		j = 0;
-		while (j < x->a.size)
+		int j = 0;
+		for (int k = 0; k < cur->size; k++)
 		{
-			if (i == n[j].real)
-				n[j].fake = cur->arr[i];
-			j++;
+			if (cur->arr[k] == i)
+				j = k;
 		}
-		i++;
+		n[j] = fake_cur->arr[cur->size - i - 1];
 	}
-	// printf("original \n");
+	// printf("n\n");
 	// for (int i = 0; i < x->a.size; i ++)
 	// {
-	// 	printf("%lld ", n[i].real);
+	// 	printf("%lld ", n[i]);
 	// }
 	// printf("\n");
-	printf("fake \n");
-	for (int i = 0; i < x->a.size; i ++)
-	{
-		printf("%lld ", n[i].fake);
-	}
-	printf("\n");
-	i = -1;
-	if (x->a.top == -1)
-	{
-		while (++i < x->a.size)
-			fake->b.arr[i] = n[i].fake;
-		fake->b.top = x->b.top;
-	}
-	else
-	{
-		while (++i < x->a.size)
-			fake->a.arr[i] = n[i].fake;
-		fake->a.top = x->a.top;
-	}
-	printf("fake a \n");
-	for (int i = 0; i < x->a.size; i ++)
-	{
-		printf("%lld ", fake->a.arr[i]);
-	}
-	printf("\n");
-	printf("fake b \n");
-	for (int i = 0; i < x->a.size; i ++)
-	{
-		printf("%lld ", fake->b.arr[i]);
-	}
-	printf("\n");
-	// while (++i < a->size)
-	// 	tmp[i] = order[i];
+	ft_memcpy(cur->arr, n, sizeof(n) * x->a.size);
+	// printf("cur arr \n");
+	// for (int i = 0; i < x->a.size; i ++)
+	// {
+	// 	printf("%lld ", cur->arr[i]);
+	// }
+	// printf("\n");
 }
 
 int	get_ternary_len(long long num)
@@ -266,9 +228,9 @@ void	clear_stack(t_both_stacks *x, t_stack *cur_stack, t_bit_ops ops, int cur_bi
 	int	cnt;
 	int	i;
 
-	cnt = 0;
+	cnt = -1;
 	// printf("clear_stack, cur_bit %d\n", cur_bit);
-	while (cnt++ < cur_stack->size)
+	while (++cnt < cur_stack->size)
 	{
 		exec_ops(x, cur_stack, ops, cur_bit);
 	}
