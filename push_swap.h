@@ -10,8 +10,8 @@
 typedef struct s_stack
 {
 	long long	*arr;
-	int	top;
-	int	size;
+	int			top;
+	int			size;
 }	t_stack;
 
 typedef struct s_input
@@ -20,13 +20,13 @@ typedef struct s_input
 	long long	idx;
 }	t_input;
 
-typedef struct s_both_stacks
+typedef struct s_inst_darr
 {
-	t_stack	a;
-	t_stack	b;
-	t_stack	*cur_stack;
-	char	mode;
-}	t_both_stacks;
+	char		**arr;
+	long long	size;
+	long long	capacity;
+
+}	t_inst_darr;
 
 typedef struct s_cnt_instructions
 {
@@ -34,31 +34,46 @@ typedef struct s_cnt_instructions
 	int	ra;
 	int	pb;
 	int	rb;
+	int	sa;
+	int	sb;
+	int	rra;
+	int	rrb;
 }	t_cnt_instructions;
+
+typedef struct s_both_stacks
+{
+	t_stack	a;
+	t_stack	b;
+	t_stack	*cur_stack;
+	t_inst_darr c;
+	char	mode;
+}	t_both_stacks;
+
 
 typedef struct s_bit_ops
 {
-	void	(*bit_1[2])(t_stack *a, t_stack *b, char mode);
-	void	(*bit_0)(t_stack *a, t_stack *b, char mode);
-	void	(*bit_2[2])(t_stack *a, t_stack *b, char mode);
+	void	(*bit_1[2])(t_stack *a, t_stack *b, t_inst_darr *c, char mode);
+	void	(*bit_0)(t_stack *a, t_stack *b, t_inst_darr *c, char mode);
+	void	(*bit_2[2])(t_stack *a, t_stack *b, t_inst_darr *c, char mode);
 }	t_bit_ops;
 
 
 // void	swap(long long *i, long long *j);
-void	sa(t_stack *a, t_stack *b, char mode);
-void	pa(t_stack *a, t_stack *b, char mode);
-void	ra(t_stack *a, t_stack *b, char mode);
-void	rra(t_stack *a, t_stack *b, char mode);
-void	sb(t_stack *a, t_stack *b, char mode);
-void	pb(t_stack *a, t_stack *b, char mode);
-void	rb(t_stack *a, t_stack *b, char mode);
-void	rrb(t_stack *a, t_stack *b, char mode);
+void	sa(t_stack *a, t_stack *b, t_inst_darr *c, char mode);
+void	pa(t_stack *a, t_stack *b, t_inst_darr *c, char mode);
+void	ra(t_stack *a, t_stack *b, t_inst_darr *c, char mode);
+void	rra(t_stack *a, t_stack *b, t_inst_darr *c, char mode);
+void	sb(t_stack *a, t_stack *b, t_inst_darr *c, char mode);
+void	pb(t_stack *a, t_stack *b, t_inst_darr *c, char mode);
+void	rb(t_stack *a, t_stack *b, t_inst_darr *c, char mode);
+void	rrb(t_stack *a, t_stack *b, t_inst_darr *c, char mode);
 void	sort(t_stack *a);
 void	init_stacks(t_both_stacks *x, int size);
 // void	init_tmp(t_tmp_stacks *t, int size);
 int		find_pivot(t_stack *x, t_stack *tmp_x);
 void	fill_up_a(t_stack *a, int argc, char *argv[]);
 char	is_sorted(t_stack *x, char id);
+void	add_inst(t_inst_darr *c, const char *inst);
 // void	sort_three_elements_a(t_stack *x);
 // void	sort_three_elements_b(t_stack *x);
 // int		check_special_cases_a(t_stack *a);

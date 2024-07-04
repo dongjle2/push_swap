@@ -11,16 +11,18 @@ static void	swap(long long *i, long long *j)
 	*j = tmp;
 }
 
-void	sb(t_stack *a, t_stack *b, char mode)
+void	sb(t_stack *a, t_stack *b, t_inst_darr *c, char mode)
 {
 	a = a;
 	if (1 < b->top)
 		swap(&(b->arr[b->top]), &(b->arr[b->top - 1]));
 	if (mode == 1)
-		write(1, "sb\n", 3);
+	{
+		add_inst(c, "sb\n");
+	}
 }
 
-void	pb(t_stack *a, t_stack *b, char mode)
+void	pb(t_stack *a, t_stack *b, t_inst_darr *c, char mode)
 {
 	if (-1 <= a->top)
 	{
@@ -29,10 +31,12 @@ void	pb(t_stack *a, t_stack *b, char mode)
 		a->top--;
 	}
 	if (mode == 1)
-		write(1, "pb\n", 3);
+	{
+		add_inst(c, "pb\n");
+	}
 }
 
-void	rb(t_stack *a, t_stack *b, char mode)
+void	rb(t_stack *a, t_stack *b, t_inst_darr *c, char mode)
 {
 	int	tmp;
 	int	i;
@@ -47,10 +51,12 @@ void	rb(t_stack *a, t_stack *b, char mode)
 	}
 	b->arr[0] = tmp;
 	if (mode == 1)
-		write(1, "rb\n", 3);
+	{
+		add_inst(c, "rb\n");
+	}
 }
 
-void	rrb(t_stack *a, t_stack *b, char mode)
+void	rrb(t_stack *a, t_stack *b, t_inst_darr *c, char mode)
 {
 	int	tmp;
 	int	i;
@@ -65,5 +71,7 @@ void	rrb(t_stack *a, t_stack *b, char mode)
 	}
 	b->arr[b->top] = tmp;
 	if (mode == 1)
-		write(1, "rrb\n", 4);
+	{
+		add_inst(c, "rrb\n");
+	}
 }

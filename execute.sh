@@ -36,8 +36,9 @@ generate_random_sequence() {
 }
 
 # Loop over lengths from 4 to 500
-for length in $(seq 4 500); do
-    ARG=$(generate_random_sequence $length)
-    echo "Testing with $length numbers: $ARG"
-    ./push_swap $ARG | ./checker_Mac $ARG
-done
+# for length in $(seq 4 500); do
+ARG=$(generate_random_sequence 81)
+# echo "Testing with $length numbers: $ARG"
+./push_swap $ARG
+./push_swap $ARG | ./checker_Mac $ARG
+# done

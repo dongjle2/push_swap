@@ -6,7 +6,7 @@
 /*   By: dongjle2 <dongjle2@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 23:54:37 by dongjle2          #+#    #+#             */
-/*   Updated: 2024/07/01 22:06:56 by dongjle2         ###   ########.fr       */
+/*   Updated: 2024/07/03 16:42:55 by dongjle2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,24 @@ void	init_stacks(t_both_stacks *x, int size)
 	x->cur_stack = &x->a;
 }
 
-// void	init_tmp(t_tmp_stacks *t, int size)
-// {
-// 	t->tmp_a.arr = ft_calloc(size, sizeof(int));
-// 	if (t->tmp_a.arr == NULL)
-// 		exit(-1);
-// 	t->tmp_a.size = size;
-// 	t->tmp_a.top = size - 1;
-// 	t->tmp_b.arr = ft_calloc(size, sizeof(int));
-// 	if (t->tmp_b.arr == NULL)
-// 		exit(-1);
-// 	t->tmp_b.size = size;
-// 	t->tmp_b.top = -1;
-// }
+void	add_inst(t_inst_darr *c, const char *inst)
+{
+	char	**tmp_arr;
+
+	if (c->capacity == c->size)
+	{
+		c->capacity *= 2;
+		tmp_arr = ft_calloc(c->capacity, sizeof(char *));
+		for (int i = 0; i < c->capacity / 2; i++)
+		{
+			tmp_arr[i] = c->arr[i];
+		}
+		free(c->arr);
+		c->arr = tmp_arr;
+	}
+	c->arr[c->size] = (char *)inst;
+	c->size++;
+}
 
 static	int	isspace(const int c);
 
