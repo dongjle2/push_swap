@@ -5,13 +5,13 @@
 # include <unistd.h>
 # include <stdlib.h>
 // # include "typedef.h"
-#include <stdio.h>
+#include <stdio.h>	//
 
 typedef struct s_stack
 {
-	long long	*arr;
-	int			top;
-	int			size;
+	int	*arr;
+	int	top;
+	int	size;
 }	t_stack;
 
 typedef struct s_input
@@ -25,7 +25,6 @@ typedef struct s_inst_darr
 	char		**arr;
 	long long	size;
 	long long	capacity;
-
 }	t_inst_darr;
 
 typedef struct s_cnt_instructions
@@ -69,7 +68,7 @@ void	rb(t_stack *a, t_stack *b, t_inst_darr *c, char mode);
 void	rrb(t_stack *a, t_stack *b, t_inst_darr *c, char mode);
 void	sort(t_stack *a);
 void	init_stacks(t_both_stacks *x, int size);
-// void	init_tmp(t_tmp_stacks *t, int size);
+long long	ft_my_atoi(const char *str);
 int		find_pivot(t_stack *x, t_stack *tmp_x);
 void	fill_up_a(t_stack *a, int argc, char *argv[]);
 char	is_sorted(t_stack *x, char id);

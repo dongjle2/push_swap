@@ -6,7 +6,7 @@
 /*   By: dongjle2 <dongjle2@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 23:54:37 by dongjle2          #+#    #+#             */
-/*   Updated: 2024/07/03 16:42:55 by dongjle2         ###   ########.fr       */
+/*   Updated: 2024/07/08 02:55:11 by dongjle2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	init_stacks(t_both_stacks *x, int size)
 {
-	x->a.arr = ft_calloc(size, sizeof(long long));
+	x->a.arr = ft_calloc(size, sizeof(int));
 	if (x->a.arr == NULL)
 		exit(-1);
-	x->b.arr = ft_calloc(size, sizeof(long long));
+	x->b.arr = ft_calloc(size, sizeof(int));
 	if (x->b.arr == NULL)
 		exit (-1);
 	x->a.top = size - 1;
@@ -26,21 +26,26 @@ void	init_stacks(t_both_stacks *x, int size)
 	x->b.size = size;
 	x->mode = 0;
 	x->cur_stack = &x->a;
+	ft_bzero(&x->c, sizeof(x->c));
 }
 
 void	add_inst(t_inst_darr *c, const char *inst)
 {
 	char	**tmp_arr;
+	int		i;
 
+	i = 0;
 	if (c->capacity == c->size)
 	{
 		c->capacity *= 2;
 		tmp_arr = ft_calloc(c->capacity, sizeof(char *));
-		for (int i = 0; i < c->capacity / 2; i++)
+		while (i < c->capacity / 2)
 		{
 			tmp_arr[i] = c->arr[i];
+			i++;
 		}
 		free(c->arr);
+		c->arr = NULL;
 		c->arr = tmp_arr;
 	}
 	c->arr[c->size] = (char *)inst;
@@ -49,7 +54,7 @@ void	add_inst(t_inst_darr *c, const char *inst)
 
 static	int	isspace(const int c);
 
-long long	ft_atoll(const char *str)
+long long	ft_my_atoi(const char *str)
 {
 	int			sign;
 	long long	num;
@@ -66,6 +71,10 @@ long long	ft_atoll(const char *str)
 	}
 	while ('0' <= *str && *str <= '9')
 		num = num * 10 + (*str++ - 48);
+	if (*str != 0)
+	{
+		return (LONG_MAX);
+	}
 	return (sign * num);
 }
 
@@ -82,17 +91,20 @@ static	int	isspace(const int c)
 	return (0);
 }
 
-void	fill_up_a(t_stack *a, int size, char *argv[])
-{
-	int	i;
+// void	fill_up_a(t_stack *a, int size, char *argv[])
+// {
+// 	int			i;
+// 	long long	l;
 
-	i = 0;
-	while ((i < size) && argv[i] != NULL)
-	{
-		a->arr[a->top - i] = ft_atoll(argv[i + 1]);
-		i++;
-	}
-}
+// 	i = 0;
+// 	while ((i < size) && argv[i] != NULL)
+// 	{
+// 		l = ft_my_atoi(argv[i + 1]);
+// 		if ((INT_MAX < l) || (l < INT_MIN))
+// 		a->arr[a->top - i] = ft_my_atoi(argv[i + 1]);
+// 		i++;
+// 	}
+// }
 
 char	is_sorted(t_stack *x, char id)
 {

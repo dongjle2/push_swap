@@ -6,15 +6,15 @@ void	clear_stack(t_both_stacks *x, t_stack *cur_stack, t_bit_ops ops, int cur_bi
 void	radix_sort(int len, t_both_stacks *x, int cur_bit);
 void	exec_ops(t_both_stacks *x, t_stack *cur_stack, t_bit_ops ops, int cur_bit);
 void	normalize(t_stack *a);
-int		get_ternary_len(long long num);
+int		get_ternary_len(int num);
 void	normalize_2(t_both_stacks *x, t_both_stacks *fake);
 
 void	init_fake_stacks(t_both_stacks *x, int size)
 {
-	x->a.arr = ft_calloc(size, sizeof(long long));
+	x->a.arr = ft_calloc(size, sizeof(int));
 	if (x->a.arr == NULL)
 		exit(-1);
-	x->b.arr = ft_calloc(size, sizeof(long long));
+	x->b.arr = ft_calloc(size, sizeof(int));
 	if (x->b.arr == NULL)
 		exit (-1);
 	x->a.top = size - 1;
@@ -22,6 +22,7 @@ void	init_fake_stacks(t_both_stacks *x, int size)
 	x->b.top = -1;
 	x->b.size = size;
 	x->mode = 0;
+	x->cur_stack = &x->a;
 	ft_bzero(&x->c, sizeof(x->c));
 }
 
@@ -41,14 +42,29 @@ void	set_cur_stack(t_both_stacks *x, t_both_stacks *fake)
 
 void	init_inst_darr(t_inst_darr *inst_darr)
 {
-	inst_darr->capacity = 4;
+	inst_darr->capacity = 128;
 	inst_darr->arr = ft_calloc(inst_darr->capacity, sizeof(char *));
 	inst_darr->size = 0;
 }
 
-int	validate_input(char *argv[])
+int	validate_input(int argc, char *argv[], t_stack *a)
 {
-	
+	int			i;
+	long long	tmp;
+
+	i = 1;
+	while (i < argc)
+	{
+		tmp = ft_my_atoi(argv[i]);
+		if ((INT_MAX < tmp) || (tmp < INT_MIN))
+		{
+			// free();
+			return (1);
+		}
+		a->arr[a->top - (i - 1)] = (int)tmp;
+		i++;
+	}
+	return (0);
 }
 
 int	main(int argc, char *argv[])
@@ -56,14 +72,17 @@ int	main(int argc, char *argv[])
 	t_both_stacks	stacks;
 	t_both_stacks	fake_stacks;
 
-	validate_input();
 	init_stacks(&stacks, argc - 1);
+	if (validate_input(argc, argv, &stacks.a) == 1)
+	{
+		write(2, "Error\n", 6);
+		return (1);
+	}
 	init_fake_stacks(&fake_stacks, argc - 1);
 	init_inst_darr(&stacks.c);
-	fill_up_a(&stacks.a, argc - 1, argv);
 	normalize(&stacks.a);
-	ft_memcpy(fake_stacks.a.arr, stacks.a.arr, sizeof(long long) * (argc - 1));
-	ft_memcpy(fake_stacks.b.arr, stacks.b.arr, sizeof(long long) * (argc - 1));
+	ft_memcpy(fake_stacks.a.arr, stacks.a.arr, sizeof(int) * (argc - 1));
+	ft_memcpy(fake_stacks.b.arr, stacks.b.arr, sizeof(int) * (argc - 1));
 	radix_sort(get_ternary_len(argc - 1), &fake_stacks, 0);
 	normalize_2(&stacks, &fake_stacks);
 	stacks.mode = 1;
@@ -92,12 +111,12 @@ int	main(int argc, char *argv[])
 
 void	normalize(t_stack *a)
 {
-	t_input 	*x;
-	int			i;
-	long long	*ranks;
+	t_input	*x;
+	int		i;
+	int		*ranks;
 
 	x = ft_calloc(a->size, sizeof(t_input));
-	ranks = ft_calloc(a->size, sizeof(long long));
+	ranks = ft_calloc(a->size, sizeof(int));
 	i = 0;
 	while (i < a->size)
 	{
@@ -109,7 +128,7 @@ void	normalize(t_stack *a)
 	i = -1;
 	while (++i < a->size)
 		ranks[x[i].idx] = i;
-	ft_memcpy(a->arr, ranks, sizeof(long long) * a->size);
+	ft_memcpy(a->arr, ranks, sizeof(int) * a->size);
 	free(x);
 	free(ranks);
 }
@@ -120,7 +139,7 @@ void	normalize_2(t_both_stacks *x, t_both_stacks *fake)
 	int			j;
 	t_stack		*cur;
 	t_stack		*fake_cur;
-	long long	*n;
+	int	*n;
 
 	if (x->a.top == -1)
 	{
@@ -132,7 +151,7 @@ void	normalize_2(t_both_stacks *x, t_both_stacks *fake)
 		cur = &x->a;
 		fake_cur = &fake->a;
 	}
-	n = ft_calloc(x->a.size, sizeof(long long));
+	n = ft_calloc(x->a.size, sizeof(int));
 	for (int i = 0; i < cur->size; i++)
 	{
 		int j = 0;
@@ -146,7 +165,7 @@ void	normalize_2(t_both_stacks *x, t_both_stacks *fake)
 	ft_memcpy(cur->arr, n, sizeof(n) * x->a.size);
 }
 
-int	get_ternary_len(long long num)
+int	get_ternary_len(int num)
 {
 	int	len;
 
@@ -189,7 +208,6 @@ void	exec_ops(t_both_stacks *x, t_stack *cur_stack, t_bit_ops ops, int cur_bit)
 	cnt_bit = cur_bit;
 	while (cnt_bit--)
 		tmp /= 3;
-	// printf("cur stack top, %lld\n", cur_stack->arr[cur_stack->top]);
 	if (tmp % 3 == 0)
 	{
 		ops.bit_0(&x->a, &x->b, &x->c,x->mode);
@@ -202,7 +220,6 @@ void	exec_ops(t_both_stacks *x, t_stack *cur_stack, t_bit_ops ops, int cur_bit)
 	else
 	{
 		ops.bit_2[0](&x->a, &x->b, &x->c,x->mode);
-		// ops.bit_2[1](&x->a, &x->b);
 	}
 	return ;
 }

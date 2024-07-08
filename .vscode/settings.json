@@ -4,6 +4,7 @@
 		"__split_buffer": "c",
 		"string": "c",
 		"vector": "c",
-		"push_swap.h": "c"
+		"push_swap.h": "c",
+		"limits.h": "c"
 	}
 }

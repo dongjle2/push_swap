@@ -1,8 +1,8 @@
 #include "push_swap.h"
 
-static void	swap(long long *i, long long *j)
+static void	swap(int *i, int *j)
 {
-	long long tmp;
+	int tmp;
 
 	if (i == j)
 		return ;
