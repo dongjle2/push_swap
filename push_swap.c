@@ -1,33 +1,32 @@
 #include "push_swap.h"
 
-int	ft_max(a, b)
-{
-	if (a < b)
-		return (b);
-	return (a);
-}
+// int	ft_max(a, b)
+// {
+// 	if (a < b)
+// 		return (b);
+// 	return (a);
+// }
 
-int	find_max(t_stack *x)
-{
-	int	i;
-	int	max;
-	int	idx;
+// int	find_max(t_stack *x)
+// {
+// 	int	i;
+// 	int	max;
+// 	int	idx;
 
-	i = 0;
-	max = -INT_MIN;
-	idx = -1;
-	while (i < x->size)
-	{
-		if (max < x->arr[i])
-		{
-			max = x->arr[i];
-			idx = i;
-		}
-		i++;
-	}
-	// printf("max idx= %d\n", idx);
-	return (idx);
-}
+// 	i = 0;
+// 	max = -INT_MIN;
+// 	idx = -1;
+// 	while (i < x->size)
+// 	{
+// 		if (max < x->arr[i])
+// 		{
+// 			max = x->arr[i];
+// 			idx = i;
+// 		}
+// 		i++;
+// 	}
+// 	return (idx);
+// }
 
 // void	max_elem_to_b(t_stack *a, t_stack *b, t_cnt_instructions *c)
 // {

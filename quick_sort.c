@@ -11,11 +11,11 @@ static void	swap(t_input *i, t_input *j)
 	*j = tmp;
 }
 
-long long	partition(t_input arr[], long long l, long long h)
+size_t	partition(t_input arr[], size_t l, size_t h)
 {
-	long long	idx_i;
-	long long	idx_j;
-	long long	pivot;
+	size_t	idx_i;
+	size_t	idx_j;
+	size_t	pivot;
 
 	idx_i = l;
 	idx_j = h;
@@ -35,9 +35,9 @@ long long	partition(t_input arr[], long long l, long long h)
 	return (idx_i);
 }
 
-void	quick_sort(t_input arr[], long long l, long long h)
+void	quick_sort(t_input arr[], size_t l, size_t h)
 {
-	long long	j;
+	size_t	j;
 
 	if (l < h)
 	{

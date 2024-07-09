@@ -5,6 +5,8 @@
 		"string": "c",
 		"vector": "c",
 		"push_swap.h": "c",
-		"limits.h": "c"
+		"limits.h": "c",
+		"algorithm": "c",
+		"libft.h": "c"
 	}
 }

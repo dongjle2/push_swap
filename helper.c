@@ -6,30 +6,29 @@
 /*   By: dongjle2 <dongjle2@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 23:54:37 by dongjle2          #+#    #+#             */
-/*   Updated: 2024/07/08 02:55:11 by dongjle2         ###   ########.fr       */
+/*   Updated: 2024/07/09 22:30:33 by dongjle2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	init_stacks(t_both_stacks *x, int size)
+void	init_stacks(t_darr *mallocs, t_both_stacks *x, int size)
 {
-	x->a.arr = ft_calloc(size, sizeof(int));
+	x->a.arr = ft_manage_calloc(size, sizeof(int), mallocs);
 	if (x->a.arr == NULL)
-		exit(-1);
-	x->b.arr = ft_calloc(size, sizeof(int));
+		malloc_fails(mallocs);
+	x->b.arr = ft_manage_calloc(size, sizeof(int), mallocs);
 	if (x->b.arr == NULL)
-		exit (-1);
+		malloc_fails(mallocs);
 	x->a.top = size - 1;
 	x->a.size = size;
 	x->b.top = -1;
 	x->b.size = size;
 	x->mode = 0;
 	x->cur_stack = &x->a;
-	ft_bzero(&x->c, sizeof(x->c));
 }
 
-void	add_inst(t_inst_darr *c, const char *inst)
+void	add_inst(t_inst_darr *c, const char *instr)
 {
 	char	**tmp_arr;
 	int		i;
@@ -48,7 +47,7 @@ void	add_inst(t_inst_darr *c, const char *inst)
 		c->arr = NULL;
 		c->arr = tmp_arr;
 	}
-	c->arr[c->size] = (char *)inst;
+	c->arr[c->size] = (char *)instr;
 	c->size++;
 }
 
@@ -89,6 +88,24 @@ static	int	isspace(const int c)
 			return (1);
 	}
 	return (0);
+}
+
+void	free_mallocs(t_darr *mallocs)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < 2)
+	{
+		// printf("%zu\n", i);
+		if (mallocs->arr[i])
+		{
+			free(mallocs->arr[i]);
+			mallocs->arr[i] = NULL;
+		}
+		i++;
+	}
+	free(mallocs->arr);
 }
 
 // void	fill_up_a(t_stack *a, int size, char *argv[])
