@@ -68,7 +68,7 @@ void	set_cur_stack(t_both_stacks *x, t_both_stacks *fake)
 
 void	init_malloc_darr(t_darr *mallocs)
 {
-	mallocs->capacity = 4096;
+	mallocs->capacity = 128;
 	mallocs->size = 0;
 	mallocs->arr = ft_calloc(mallocs->capacity, sizeof(void *));
 	if (mallocs->arr == NULL)
@@ -129,6 +129,7 @@ int	main(int argc, char *argv[])
 
 	pmallocs = &mallocs;
 	init_malloc_darr(pmallocs);
+	validate_input();
 	init_stacks(pmallocs, &stacks, argc - 1);
 	if (ck_input_range(pmallocs, argc, argv, &stacks) == 1)
 	{

@@ -94,4 +94,6 @@ void	max_elem_to_b(t_stack *a, t_stack *b, t_cnt_instructions *c);
 void	quick_sort(t_input arr[], size_t l, size_t h);
 size_t	partition(t_input arr[], size_t l, size_t h);
 void	sort(t_stack *x);
+int		validate_input(char *argv[]);
+size_t	split_len(char **split);
 #endif
