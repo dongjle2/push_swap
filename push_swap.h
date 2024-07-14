@@ -88,6 +88,7 @@ char	is_sorted(t_stack *x, char id);
 void	add_inst(t_inst_darr *c, const char *instr);
 void	add_malloc(t_darr *c, void *mem);
 void	free_mallocs(t_darr *mallocs);
+void	free_split(char **split);
 void	malloc_fails(t_darr *mallocs);
 void	*ft_manage_calloc(size_t count, size_t size, t_darr *mallocs);
 // void	sort_three_elements_a(t_stack *x);

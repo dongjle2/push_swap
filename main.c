@@ -120,6 +120,68 @@ void	add_malloc(t_darr *c, void *mem)
 	c->size++;
 }
 
+int	get_first_num(char *argv[])
+{
+	size_t	i;
+	char	*dup;
+	int		ret;
+
+	i = 0;
+	dup = ft_strdup(argv[1]);	
+	while (dup[i] == ' ')
+		i++;
+	while (dup[i] != ' ')
+		i++;
+	dup[i] = 0;
+	ret = ft_atoi(dup);
+	free(dup);
+	return (ret);
+}
+
+int	already_sorted(char *argv[])
+{
+	size_t	i;
+	size_t	k;
+	int		tmp;
+	char	**split;
+
+	i = 1;
+	tmp = get_first_num(argv);
+	while (argv[i])
+	{
+		split = ft_split(argv[i], ' ');
+		k = 0;
+		while (split[k])
+		{
+			if (ft_atoi(split[k]) < tmp)
+			{
+				free_split(split);
+				return (1);
+			}
+			tmp = ft_atoi(split[k]);
+			k++;
+		}
+		free_split(split);
+		split = NULL;
+		i++;
+	}
+	return (0);
+}
+
+int	ck_sort_necessity(int argc, char *argv[])
+{
+	if (argc == 1)
+		return (1);
+	if (validate_input(argv) == 1)
+	{
+		write(2, "Error\n", 6);
+		return (1);
+	}
+	if (already_sorted(argv) == 0)
+		return (1);
+	return (0);
+}
+
 int	main(int argc, char *argv[])
 {
 	t_both_stacks	stacks;
@@ -129,11 +191,8 @@ int	main(int argc, char *argv[])
 
 	pmallocs = &mallocs;
 	init_malloc_darr(pmallocs);
-	if (validate_input(argv) == 1)
-	{
-		write(2, "Error\n", 6);
+	if (ck_sort_necessity(argc, argv) == 1)
 		return (1);
-	}
 	init_stacks(pmallocs, &stacks, argc - 1);
 	init_fake_stacks(pmallocs, &fake_stacks, argc - 1);
 	normalize(pmallocs, &stacks.a);
@@ -143,7 +202,6 @@ int	main(int argc, char *argv[])
 	normalize_2(&stacks, &fake_stacks);
 	stacks.mode = 1;
 	radix_sort(get_ternary_len(argc - 1), &stacks, 0);
-
 	free_mallocs(pmallocs);
 	return (0);
 }
