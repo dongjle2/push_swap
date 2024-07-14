@@ -22,28 +22,47 @@ size_t	split_len(char **split)
 	return (i);
 }
 
+int	ck_sign_digit(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	if ((*str == '+') || (*str == '-'))
+		str++;
+	while (*str)
+	{
+		if (ft_isdigit(*str) == 1)
+			str++;
+		else
+			return (1);
+	}
+	return (0);
+}
+
 int	validate_input(char *argv[])
 {
 	size_t	i;
-	size_t	num_rows;
 	size_t	k;
 	char	**split;
 
-	i = 0;
+	i = 1;
 	while (argv[i])
 	{
 		split = ft_split(argv[i], ' ');
-		num_rows = split_len(split);
 		k = 0;
 		while (split[k])
 		{
 			if (ck_sign_digit(split[k]) == 1)
 			{
-				free_split(split, num_rows);
+				free(split);
 				return (1);
 			}
 			k++;
 		}
+		//ck_input_range
+		free(split);
+		split = NULL;
 		i++;
 	}
+	return (0);
 }
