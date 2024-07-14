@@ -27,6 +27,13 @@ typedef struct s_darr
 	size_t	capacity;
 }	t_darr;
 
+typedef struct s_int_darr
+{
+	int		*arr;
+	size_t	size;
+	size_t	capacity;
+}	t_int_darr;
+
 typedef struct s_inst_darr
 {
 	char	**arr;

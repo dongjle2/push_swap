@@ -75,27 +75,27 @@ void	init_malloc_darr(t_darr *mallocs)
 		exit(-1);
 }
 
-int	ck_input_range(t_darr *mallocs, int argc, char *argv[], t_both_stacks *stacks)
-{
-	t_stack		*a;
-	size_t		i;
-	long long	tmp;
+// int	ck_input_range(t_darr *mallocs, int argc, char *argv[], t_both_stacks *stacks)
+// {
+// 	t_stack		*a;
+// 	size_t		i;
+// 	long long	tmp;
 
-	a = &stacks->a;
-	i = 1;
-	while (i < argc)
-	{
-		tmp = ft_my_atoi(argv[i]);
-		if ((INT_MAX < tmp) || (tmp < INT_MIN))
-		{
-			free_mallocs(mallocs);
-			return (1);
-		}
-		a->arr[a->top - (i - 1)] = (int)tmp;
-		i++;
-	}
-	return (0);
-}
+// 	a = &stacks->a;
+// 	i = 1;
+// 	while (i < argc)
+// 	{
+// 		tmp = ft_my_atoi(argv[i]);
+// 		if ((INT_MAX < tmp) || (tmp < INT_MIN))
+// 		{
+// 			free_mallocs(mallocs);
+// 			return (1);
+// 		}
+// 		a->arr[a->top - (i - 1)] = (int)tmp;
+// 		i++;
+// 	}
+// 	return (0);
+// }
 
 void	add_malloc(t_darr *c, void *mem)
 {
@@ -134,17 +134,7 @@ int	main(int argc, char *argv[])
 		write(2, "Error\n", 6);
 		return (1);
 	}
-	else
-	{
-		write(2, "Good\n", 5);
-		return (1);
-	}
 	init_stacks(pmallocs, &stacks, argc - 1);
-	if (ck_input_range(pmallocs, argc, argv, &stacks) == 1)
-	{
-		write(2, "Error\n", 6);
-		return (1);
-	}
 	init_fake_stacks(pmallocs, &fake_stacks, argc - 1);
 	normalize(pmallocs, &stacks.a);
 	ft_memcpy(fake_stacks.a.arr, stacks.a.arr, sizeof(int) * (argc - 1));
