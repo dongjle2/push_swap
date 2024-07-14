@@ -129,7 +129,16 @@ int	main(int argc, char *argv[])
 
 	pmallocs = &mallocs;
 	init_malloc_darr(pmallocs);
-	validate_input();
+	if (validate_input(argv) == 1)
+	{
+		write(2, "Error\n", 6);
+		return (1);
+	}
+	else
+	{
+		write(2, "Good\n", 5);
+		return (1);
+	}
 	init_stacks(pmallocs, &stacks, argc - 1);
 	if (ck_input_range(pmallocs, argc, argv, &stacks) == 1)
 	{
