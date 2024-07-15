@@ -6,7 +6,7 @@
 /*   By: dongjle2 <dongjle2@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 23:54:37 by dongjle2          #+#    #+#             */
-/*   Updated: 2024/07/09 22:30:33 by dongjle2         ###   ########.fr       */
+/*   Updated: 2024/07/15 19:07:45 by dongjle2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,20 +108,31 @@ void	free_mallocs(t_darr *mallocs)
 	free(mallocs->arr);
 }
 
-// void	fill_up_a(t_stack *a, int size, char *argv[])
-// {
-// 	int			i;
-// 	long long	l;
+int	get_input(t_int_darr *d_arr, t_stack *a, char *argv[])
+{
+	size_t			i;
+	size_t			j;
+	char			**split;
+	unsigned int	ret;
 
-// 	i = 0;
-// 	while ((i < size) && argv[i] != NULL)
-// 	{
-// 		l = ft_my_atoi(argv[i + 1]);
-// 		if ((INT_MAX < l) || (l < INT_MIN))
-// 		a->arr[a->top - i] = ft_my_atoi(argv[i + 1]);
-// 		i++;
-// 	}
-// }
+	i = 1;
+	init_int_darr(d_arr);
+	while (argv[i])
+	{
+		split = ft_split(argv[i], ' ');
+		j = 0;
+		while (split[j])
+		{
+			if (add_darr(d_arr, ft_atoi(split[j])) != 0)
+				return (-1);
+			j++;
+		}
+		free_split(split);
+		split = NULL;
+		i++;
+	}
+	return (ret);
+}
 
 char	is_sorted(t_stack *x, char id)
 {

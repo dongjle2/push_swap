@@ -130,7 +130,7 @@ int	get_first_num(char *argv[])
 	dup = ft_strdup(argv[1]);	
 	while (dup[i] == ' ')
 		i++;
-	while (dup[i] != ' ')
+	while (dup[i] && dup[i] != ' ')
 		i++;
 	dup[i] = 0;
 	ret = ft_atoi(dup);
@@ -182,8 +182,22 @@ int	ck_sort_necessity(int argc, char *argv[])
 	return (0);
 }
 
+void	fill_up_a(t_stack *a, t_int_darr *d_arr)
+{
+	size_t	i;
+
+	i = 0;
+	while (0 < d_arr->size)
+	{
+		a->arr[i] = d_arr->arr[d_arr->size - 1];
+		i++;
+		d_arr->size--;
+	}
+}
+
 int	main(int argc, char *argv[])
 {
+	t_int_darr		d_arr;
 	t_both_stacks	stacks;
 	t_both_stacks	fake_stacks;
 	t_darr			mallocs;
@@ -192,9 +206,19 @@ int	main(int argc, char *argv[])
 	pmallocs = &mallocs;
 	init_malloc_darr(pmallocs);
 	if (ck_sort_necessity(argc, argv) == 1)
+	{
+		free(pmallocs->arr);
 		return (1);
-	init_stacks(pmallocs, &stacks, argc - 1);
-	init_fake_stacks(pmallocs, &fake_stacks, argc - 1);
+	}
+	get_input(&d_arr, &stacks.a, argv);
+	init_stacks(pmallocs, &stacks, d_arr.size);
+	init_fake_stacks(pmallocs, &fake_stacks, stacks.a.size);
+	fill_up_a(&stacks.a, &d_arr);
+	for (int i = 0; i < stacks.a.size; i++)
+	{
+		printf("%d ", stacks.a.arr[i]);
+	}
+	printf("\n");
 	normalize(pmallocs, &stacks.a);
 	ft_memcpy(fake_stacks.a.arr, stacks.a.arr, sizeof(int) * (argc - 1));
 	ft_memcpy(fake_stacks.b.arr, stacks.b.arr, sizeof(int) * (argc - 1));
@@ -205,19 +229,6 @@ int	main(int argc, char *argv[])
 	free_mallocs(pmallocs);
 	return (0);
 }
-
-// int	find_dup(t_input *x, size_t len)
-// {
-// 	size_t	i;
-
-// 	i = 0;
-// 	while (i < len - 1)
-// 	{
-// 		if (x[i].nums == x[i + 1].nums)
-// 			return (1);
-// 	}
-// 	return (0);
-// }
 
 void	normalize(t_darr *mallocs, t_stack *a)
 {
@@ -239,6 +250,11 @@ void	normalize(t_darr *mallocs, t_stack *a)
 		i++;
 	}
 	quick_sort(x, 0, a->size - 1);
+	for (int i = 0; i < a->size; i++)
+	{
+		printf("%d ", a->arr[i]);
+	}
+	printf("\n");
 	i = 0;
 	while (i < a->size)
 	{
@@ -246,6 +262,12 @@ void	normalize(t_darr *mallocs, t_stack *a)
 		i++;
 	}
 	ft_memcpy(a->arr, ranks, sizeof(int) * a->size);
+	for (int i = 0; i < a->size; i++)
+	{
+		printf("%d ", a->arr[i]);
+	}
+	printf("\n");
+	i = 0;
 }
 
 void	normalize_2(t_both_stacks *x, t_both_stacks *fake)

@@ -6,7 +6,7 @@
 /*   By: dongjle2 <dongjle2@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 21:27:22 by dongjle2          #+#    #+#             */
-/*   Updated: 2024/07/14 18:55:19 by dongjle2         ###   ########.fr       */
+/*   Updated: 2024/07/15 15:49:03 by dongjle2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,12 @@ void	free_split(char **split)
 
 	i = 0;
 	num_row = split_len(split);
-	while (i <= num_row)	//ft_split has last NULL in the end
+	while (i <= num_row)
 	{
 		free(split[i]);
-		// split[i] = NULL;
 		i++;
 	}
 	free(split);
-	// split = NULL;
 }
 
 int	validate_nums(char *argv[])
@@ -136,10 +134,31 @@ int	add_darr(t_int_darr *darr, int x)
 	return (0);
 }
 
+int	iterate_arr(t_int_darr *d_arr)
+{
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	while (i < d_arr->size - 1)
+	{
+		j = i + 1;
+		while (j < d_arr->size)
+		{
+			if (d_arr->arr[i] == d_arr->arr[j])
+				return (1);
+			j++;
+		}
+		i++;
+	}
+	return (0);
+}
+
 int	find_dup(char *argv[])
 {
 	size_t		i;
 	size_t		j;
+	int			ret;
 	t_int_darr	d_arr;
 	char		**split;
 
@@ -155,17 +174,13 @@ int	find_dup(char *argv[])
 				return (-1);
 			j++;
 		}
+		free_split(split);
+		split = NULL;
 		i++;
 	}
-	for (size_t i = 0; i < d_arr.size - 1; i++)
-	{
-		for (size_t j = 1; j < d_arr.size; j++)
-		{
-			if (d_arr.arr[i] == d_arr.arr[j])
-				return (1);
-		}
-	}
-	return (0);
+	ret = iterate_arr(&d_arr);
+	free(d_arr.arr);
+	return (ret);
 }
 
 int	validate_input(char *argv[])

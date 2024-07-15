@@ -58,7 +58,7 @@ typedef struct s_both_stacks
 	t_stack		a;
 	t_stack		b;
 	t_stack		*cur_stack;
-	// t_inst_darr	inst;
+	
 	char		mode;
 }	t_both_stacks;
 
@@ -79,11 +79,15 @@ void	rb(t_both_stacks *x, char mode);
 void	rrb(t_both_stacks *x, char mode);
 void	sort(t_stack *a);
 void	*ft_manage_calloc(size_t count, size_t size, t_darr *mallocs);
-void	init_stacks(t_darr *malloc, t_both_stacks *x, int size);
+void	init_stacks(t_darr *mallocs, t_both_stacks *x, int size);
 void	init_malloc_darr(t_darr *mallocs);
-long long	ft_my_atoi(const char *str);
-int		find_pivot(t_stack *x, t_stack *tmp_x);
-void	fill_up_a(t_stack *a, int argc, char *argv[]);
+int		init_int_darr(t_int_darr *darr);
+int		add_darr(t_int_darr *darr, int x);
+long long		ft_my_atoi(const char *str);
+int				get_input(t_int_darr *d_arr, t_stack *a, char *argv[]);
+int				find_pivot(t_stack *x, t_stack *tmp_x);
+unsigned int	get_stack_sz(t_stack *a, char *argv[]);
+void	fill_up_a(t_stack *a, t_int_darr *d_arr);
 char	is_sorted(t_stack *x, char id);
 void	add_inst(t_inst_darr *c, const char *instr);
 void	add_malloc(t_darr *c, void *mem);
