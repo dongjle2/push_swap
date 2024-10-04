@@ -66,14 +66,23 @@ void	set_cur_stack(t_both_stacks *x, t_both_stacks *fake)
 // 	inst_darr->size = 0;
 // }
 
-void	init_malloc_darr(t_darr *mallocs)
+void init_darr(void *darr, size_t elem_size, size_t capacity)
 {
-	mallocs->capacity = 128;
-	mallocs->size = 0;
-	mallocs->arr = ft_calloc(mallocs->capacity, sizeof(void *));
-	if (mallocs->arr == NULL)
-		exit(-1);
+	((t_generic_darr *)darr)->capacity = capacity;
+	((t_generic_darr *)darr)->size = 0;
+	((t_generic_darr *)darr)->arr = ft_calloc(capacity, elem_size);
+	if (((t_generic_darr *)darr)->arr == NULL)
+		exit(1);
 }
+
+// void	init_malloc_darr(t_darr *mallocs)
+// {
+// 	mallocs->capacity = 128;
+// 	mallocs->size = 0;
+// 	mallocs->arr = ft_calloc(mallocs->capacity, sizeof(void *));
+// 	if (mallocs->arr == NULL)
+// 		exit(-1);
+// }
 
 // int	ck_input_range(t_darr *mallocs, int argc, char *argv[], t_both_stacks *stacks)
 // {
@@ -127,7 +136,7 @@ int	get_first_num(char *argv[])
 	int		ret;
 
 	i = 0;
-	dup = ft_strdup(argv[1]);	
+	dup = ft_strdup(argv[1]);
 	while (dup[i] == ' ')
 		i++;
 	while (dup[i] && dup[i] != ' ')
@@ -203,30 +212,27 @@ int	main(int argc, char *argv[])
 	t_darr			mallocs;
 	t_darr			*pmallocs;
 
-	pmallocs = &mallocs;
-	init_malloc_darr(pmallocs);
 	if (ck_sort_necessity(argc, argv) == 1)
-	{
-		free(pmallocs->arr);
 		return (1);
-	}
-	get_input(&d_arr, &stacks.a, argv);
-	init_stacks(pmallocs, &stacks, d_arr.size);
-	init_fake_stacks(pmallocs, &fake_stacks, stacks.a.size);
-	fill_up_a(&stacks.a, &d_arr);
-	for (int i = 0; i < stacks.a.size; i++)
-	{
-		printf("%d ", stacks.a.arr[i]);
-	}
-	printf("\n");
-	normalize(pmallocs, &stacks.a);
-	ft_memcpy(fake_stacks.a.arr, stacks.a.arr, sizeof(int) * (argc - 1));
-	ft_memcpy(fake_stacks.b.arr, stacks.b.arr, sizeof(int) * (argc - 1));
-	radix_sort(get_ternary_len(argc - 1), &fake_stacks, 0);
-	normalize_2(&stacks, &fake_stacks);
-	stacks.mode = 1;
-	radix_sort(get_ternary_len(argc - 1), &stacks, 0);
-	free_mallocs(pmallocs);
+	// pmallocs = &mallocs;
+	// init_darr(pmallocs, sizeof(void *), 128);
+	// get_input(&d_arr, &stacks.a, argv);
+	// init_stacks(pmallocs, &stacks, d_arr.size);
+	// init_fake_stacks(pmallocs, &fake_stacks, stacks.a.size);
+	// fill_up_a(&stacks.a, &d_arr);
+	// for (int i = 0; i < stacks.a.size; i++)
+	// {
+	// 	printf("%d ", stacks.a.arr[i]);
+	// }
+	// printf("\n");
+	// normalize(pmallocs, &stacks.a);
+	// ft_memcpy(fake_stacks.a.arr, stacks.a.arr, sizeof(int) * (argc - 1));
+	// ft_memcpy(fake_stacks.b.arr, stacks.b.arr, sizeof(int) * (argc - 1));
+	// radix_sort(get_ternary_len(argc - 1), &fake_stacks, 0);
+	// normalize_2(&stacks, &fake_stacks);
+	// stacks.mode = 1;
+	// radix_sort(get_ternary_len(argc - 1), &stacks, 0);
+	// free_mallocs(pmallocs);
 	return (0);
 }
 

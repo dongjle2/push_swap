@@ -20,6 +20,13 @@ typedef struct s_input
 	size_t	idx;
 }	t_input;
 
+typedef struct s_generic_darr
+{
+	size_t	capacity;
+	size_t	size;
+	void	*arr;
+}	t_generic_darr;
+
 typedef struct s_darr
 {
 	void	**arr;
@@ -79,12 +86,13 @@ void	rb(t_both_stacks *x, char mode);
 void	rrb(t_both_stacks *x, char mode);
 void	sort(t_stack *a);
 void	*ft_manage_calloc(size_t count, size_t size, t_darr *mallocs);
+void	init_darr(void *darr, size_t elem_size, size_t capacity);
 void	init_stacks(t_darr *mallocs, t_both_stacks *x, int size);
 void	init_malloc_darr(t_darr *mallocs);
-int		init_int_darr(t_int_darr *darr);
-int		add_darr(t_int_darr *darr, int x);
+// int		init_int_darr(t_int_darr *darr);
+// void		add_darr(t_int_darr *darr, int x);
 long long		ft_my_atoi(const char *str);
-int				get_input(t_int_darr *d_arr, t_stack *a, char *argv[]);
+// int				get_input(t_int_darr *d_arr, t_stack *a, char *argv[]);
 int				find_pivot(t_stack *x, t_stack *tmp_x);
 unsigned int	get_stack_sz(t_stack *a, char *argv[]);
 void	fill_up_a(t_stack *a, t_int_darr *d_arr);
@@ -108,4 +116,6 @@ size_t	partition(t_input arr[], size_t l, size_t h);
 void	sort(t_stack *x);
 int		validate_input(char *argv[]);
 size_t	split_len(char **split);
+
+int	is_int(char **whole_split);
 #endif
