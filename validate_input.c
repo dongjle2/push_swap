@@ -6,7 +6,7 @@
 /*   By: dongjle2 <dongjle2@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 21:27:22 by dongjle2          #+#    #+#             */
-/*   Updated: 2024/10/04 03:08:03 by dongjle2         ###   ########.fr       */
+/*   Updated: 2024/10/06 03:20:49 by dongjle2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	is_signed_digit(char *str)
 	return (0);
 }
 
-int	ck_input_range(char *str)
+int	ck_int_range(char *str)
 {
 	long long	tmp;
 
@@ -106,18 +106,18 @@ void	add_darr(t_int_darr *darr, int x)
 	return ;
 }
 
-int	iterate_arr(t_int_darr *d_arr)
+int	iterate_arr(int *arr, size_t sz)
 {
 	size_t	i;
 	size_t	j;
 
 	i = 0;
-	while (i < d_arr->size - 1)
+	while (i < sz - 1)
 	{
 		j = i + 1;
-		while (j < d_arr->size)
+		while (j < sz)
 		{
-			if (d_arr->arr[i] == d_arr->arr[j])
+			if (arr[i] == arr[j])
 				return (1);
 			j++;
 		}
@@ -154,7 +154,7 @@ char	**cp_split_to_arr(char **ret, char *argv[])
 	size_t	cnt;
 	char	**split;
 
-	i = 0;
+	i = 1;
 	cnt = 0;
 	while (argv[i])
 	{
@@ -177,12 +177,9 @@ char	**cp_split_to_arr(char **ret, char *argv[])
 char	**get_whole_split(char *argv[])
 {
 	size_t	len_row;
-	size_t	i;
-	size_t	j;
 	char	**ret;
 	char	**split;
 
-	i = 0;
 	len_row = cnt_whole_str(argv);
 	ret = ft_calloc(len_row + 1, sizeof(char *));
 	if (ret == NULL)
@@ -198,9 +195,10 @@ int	is_int(char **whole_split)
 	i = 0;
 	while (whole_split[i])
 	{
-		if (is_signed_digit(whole_split[i]) == 1\
-			|| ck_input_range(whole_split[i]) == 1)
+		if (is_signed_digit(whole_split[i]) == 1 || ck_int_range(whole_split[i]) == 1)
+		{
 			return (1);
+		}
 		i++;
 	}
 	return (0);
@@ -234,40 +232,33 @@ int	is_int(char *argv[])
 }
 */
 
-int	find_dup_int(char *argv[])	//fix using sort
+int	find_dup_int(char **whole_split)	//fix using sort
 {
-	size_t		i;
-	size_t		j;
-	int			ret;
-	t_int_darr	d_arr;
-	char		**split;
+	size_t	i;
+	int		ret;
+	int		*arr;
 
-	i = 1;
-	init_darr(&d_arr, sizeof(int), 128);
-	while (argv[i])
+	i = 0;
+	while (whole_split[i++])
+		;
+	arr = ft_calloc(i + 1, sizeof(int));
+	i = 0;
+	while (whole_split[i])
 	{
-		split = ft_split(argv[i], ' ');
-		j = 0;
-		while (split[j])
-		{
-			add_darr(&d_arr, ft_atoi(split[j]));
-			j++;
-		}
-		free_split(split);
-		split = NULL;
+		arr[i] =  ft_atoi(whole_split[i]);
 		i++;
 	}
-	ret = iterate_arr(&d_arr);
-	free(d_arr.arr);
+	ret = iterate_arr(arr, i);
+	free(arr);
 	return (ret);
 }
 
 int	validate_input(char *argv[])
 {
 	char	**whole_split;
-	
+
 	whole_split = get_whole_split(argv);
-	if (is_int(whole_split) == 1 || find_dup_int(argv) == 1)
+	if (is_int(whole_split) == 1 || find_dup_int(whole_split) == 1)
 	{
 		free_split(whole_split);
 		return (1);

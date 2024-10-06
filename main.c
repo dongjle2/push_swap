@@ -214,25 +214,25 @@ int	main(int argc, char *argv[])
 
 	if (ck_sort_necessity(argc, argv) == 1)
 		return (1);
-	// pmallocs = &mallocs;
-	// init_darr(pmallocs, sizeof(void *), 128);
+	pmallocs = &mallocs;
+	init_darr(pmallocs, sizeof(void *), 128);
 	// get_input(&d_arr, &stacks.a, argv);
-	// init_stacks(pmallocs, &stacks, d_arr.size);
-	// init_fake_stacks(pmallocs, &fake_stacks, stacks.a.size);
-	// fill_up_a(&stacks.a, &d_arr);
+	init_stacks(pmallocs, &stacks, d_arr.size);
+	init_fake_stacks(pmallocs, &fake_stacks, stacks.a.size);
+	fill_up_a(&stacks.a, &d_arr);
 	// for (int i = 0; i < stacks.a.size; i++)
 	// {
 	// 	printf("%d ", stacks.a.arr[i]);
 	// }
 	// printf("\n");
-	// normalize(pmallocs, &stacks.a);
-	// ft_memcpy(fake_stacks.a.arr, stacks.a.arr, sizeof(int) * (argc - 1));
-	// ft_memcpy(fake_stacks.b.arr, stacks.b.arr, sizeof(int) * (argc - 1));
-	// radix_sort(get_ternary_len(argc - 1), &fake_stacks, 0);
-	// normalize_2(&stacks, &fake_stacks);
-	// stacks.mode = 1;
-	// radix_sort(get_ternary_len(argc - 1), &stacks, 0);
-	// free_mallocs(pmallocs);
+	normalize(pmallocs, &stacks.a);
+	ft_memcpy(fake_stacks.a.arr, stacks.a.arr, sizeof(int) * (argc - 1));
+	ft_memcpy(fake_stacks.b.arr, stacks.b.arr, sizeof(int) * (argc - 1));
+	radix_sort(get_ternary_len(argc - 1), &fake_stacks, 0);
+	normalize_2(&stacks, &fake_stacks);
+	stacks.mode = 1;
+	radix_sort(get_ternary_len(argc - 1), &stacks, 0);
+	free_mallocs(pmallocs);
 	return (0);
 }
 
