@@ -65,7 +65,6 @@ typedef struct s_both_stacks
 	t_stack		a;
 	t_stack		b;
 	t_stack		*cur_stack;
-	
 	char		mode;
 }	t_both_stacks;
 
@@ -87,7 +86,7 @@ void	rrb(t_both_stacks *x, char mode);
 void	sort(t_stack *a);
 void	*ft_manage_calloc(size_t count, size_t size, t_darr *mallocs);
 void	init_darr(void *darr, size_t elem_size, size_t capacity);
-void	init_stacks(t_darr *mallocs, t_both_stacks *x, int size);
+void	init_stacks(t_darr *mallocs, t_both_stacks *x, size_t sz);
 void	init_malloc_darr(t_darr *mallocs);
 // int		init_int_darr(t_int_darr *darr);
 // void		add_darr(t_int_darr *darr, int x);
@@ -95,7 +94,7 @@ long long		ft_my_atoi(const char *str);
 // int				get_input(t_int_darr *d_arr, t_stack *a, char *argv[]);
 int				find_pivot(t_stack *x, t_stack *tmp_x);
 unsigned int	get_stack_sz(t_stack *a, char *argv[]);
-void	fill_up_a(t_stack *a, t_int_darr *d_arr);
+void	fill_up_a(t_stack *a, int *arr, int len_arr);
 char	is_sorted(t_stack *x, char id);
 void	add_inst(t_inst_darr *c, const char *instr);
 void	add_malloc(t_darr *c, void *mem);
@@ -118,4 +117,7 @@ int		validate_input(char *argv[]);
 size_t	split_len(char **split);
 
 int	is_int(char **whole_split);
+int	find_dup_int(int *int_split ,size_t sz);
+int	*str_arr_to_int_arr(char **whole_split, size_t sz);
+char	**get_whole_split(char *argv[]);
 #endif

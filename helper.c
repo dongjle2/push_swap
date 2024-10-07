@@ -6,24 +6,24 @@
 /*   By: dongjle2 <dongjle2@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 23:54:37 by dongjle2          #+#    #+#             */
-/*   Updated: 2024/10/04 02:56:35 by dongjle2         ###   ########.fr       */
+/*   Updated: 2024/10/06 21:04:28 by dongjle2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	init_stacks(t_darr *mallocs, t_both_stacks *x, int size)
+void	init_stacks(t_darr *mallocs, t_both_stacks *x, size_t sz)
 {
-	x->a.arr = ft_manage_calloc(size, sizeof(int), mallocs);
+	x->a.arr = ft_manage_calloc(sz, sizeof(int), mallocs);
 	if (x->a.arr == NULL)
 		malloc_fails(mallocs);
-	x->b.arr = ft_manage_calloc(size, sizeof(int), mallocs);
+	x->b.arr = ft_manage_calloc(sz, sizeof(int), mallocs);
 	if (x->b.arr == NULL)
 		malloc_fails(mallocs);
-	x->a.top = size - 1;
-	x->a.size = size;
+	x->a.top = sz - 1;
+	x->a.size = sz;
 	x->b.top = -1;
-	x->b.size = size;
+	x->b.size = sz;
 	x->mode = 0;
 	x->cur_stack = &x->a;
 }

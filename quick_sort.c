@@ -35,7 +35,7 @@ size_t	partition(t_input arr[], size_t l, size_t h)
 	return (idx_i);
 }
 
-void	quick_sort(t_input arr[], size_t l, size_t h)
+void	quick_sort(t_input *arr, size_t l, size_t h)
 {
 	size_t	j;
 

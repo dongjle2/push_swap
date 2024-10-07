@@ -6,7 +6,7 @@
 /*   By: dongjle2 <dongjle2@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 21:27:22 by dongjle2          #+#    #+#             */
-/*   Updated: 2024/10/06 03:20:49 by dongjle2         ###   ########.fr       */
+/*   Updated: 2024/10/07 01:24:57 by dongjle2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ size_t	cnt_whole_str(char *argv[])
 	return (ret);
 }
 
-char	**cp_split_to_arr(char **ret, char *argv[])
+void	cp_argv_to_arr(char **ret, char *argv[])
 {
 	size_t	i;
 	size_t	j;
@@ -160,7 +160,10 @@ char	**cp_split_to_arr(char **ret, char *argv[])
 	{
 		split = ft_split(argv[i], ' ');
 		if (split == NULL)
+		{
+			free_split(split);
 			exit(1);
+		}
 		j = 0;
 		while (split[j] != 0)
 		{
@@ -171,7 +174,6 @@ char	**cp_split_to_arr(char **ret, char *argv[])
 		i++;
 	}
 	ret[cnt] = 0;
-	return (ret);
 }
 
 char	**get_whole_split(char *argv[])
@@ -181,10 +183,12 @@ char	**get_whole_split(char *argv[])
 	char	**split;
 
 	len_row = cnt_whole_str(argv);
+	if (len_row == 0)
+		exit(0);
 	ret = ft_calloc(len_row + 1, sizeof(char *));
 	if (ret == NULL)
 		exit(1);
-	ret = cp_split_to_arr(ret, argv);
+	cp_argv_to_arr(ret, argv);
 	return (ret);
 }
 
@@ -232,36 +236,36 @@ int	is_int(char *argv[])
 }
 */
 
-int	find_dup_int(char **whole_split)	//fix using sort
+int	*str_arr_to_int_arr(char **whole_split, size_t sz)
 {
 	size_t	i;
-	int		ret;
-	int		*arr;
+	int		*ret;
 
 	i = 0;
-	while (whole_split[i++])
-		;
-	arr = ft_calloc(i + 1, sizeof(int));
-	i = 0;
+	ret = ft_calloc(sz, sizeof(int));
 	while (whole_split[i])
 	{
-		arr[i] =  ft_atoi(whole_split[i]);
+		ret[i] = ft_atoi(whole_split[i]);
 		i++;
 	}
-	ret = iterate_arr(arr, i);
-	free(arr);
 	return (ret);
 }
 
-int	validate_input(char *argv[])
+int	find_dup_int(int *int_split ,size_t sz)	//fix using sort
 {
-	char	**whole_split;
+	int	ret;
 
-	whole_split = get_whole_split(argv);
-	if (is_int(whole_split) == 1 || find_dup_int(whole_split) == 1)
-	{
-		free_split(whole_split);
-		return (1);
-	}
-	return (0);
+	ret = iterate_arr(int_split, sz);
+	return (ret);
 }
+
+// int	validate_input(char **whole_split)
+// {
+// 	if (is_int(whole_split) == 1 || find_dup_int(whole_split) == 1)
+// 	{
+// 		free_split(whole_split);
+// 		return (1);
+// 	}
+// 	free_split(whole_split);
+// 	return (0);
+// }

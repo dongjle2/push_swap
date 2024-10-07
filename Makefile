@@ -27,11 +27,11 @@ $(OBJDIR):
 
 $(NAME): $(LIBFT) $(OBJS_LIST)
 # cc -g $(OBJS_MAND) -o $@ -L./libft -lft -fsanitize=address
-	cc -g $(OBJS_MAND) -o $@ -L./libft -lft 
+	cc $(OBJS_MAND) -o $@ -L./libft -lft 
 # cc $(CFLAGS) $(OBJS_MAND) -o $@ -L./libft -lft
 
 $(OBJDIR)/%.o: %.c | $(OBJDIR)
-	cc -g $(CFLAGS) -c $< -o $@
+	cc $(CFLAGS) -c $< -o $@
 
 bonus: $(NAME)
 

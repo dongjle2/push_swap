@@ -24,22 +24,6 @@ void	malloc_fails(t_darr *mallocs)
 	exit(-1);
 }
 
-void	init_fake_stacks(t_darr *mallocs, t_both_stacks *x, int size)
-{
-	x->a.arr = ft_manage_calloc(size, sizeof(int), mallocs);
-	if (x->a.arr == NULL)
-		malloc_fails(mallocs);
-	x->b.arr = ft_manage_calloc(size, sizeof(int), mallocs);
-	if (x->b.arr == NULL)
-		malloc_fails(mallocs);
-	x->a.top = size - 1;
-	x->a.size = size;
-	x->b.top = -1;
-	x->b.size = size;
-	x->mode = 0;
-	x->cur_stack = &x->a;
-}
-
 void	set_cur_stack(t_both_stacks *x, t_both_stacks *fake)
 {
 	if (x->a.top == -1)
@@ -66,45 +50,23 @@ void	set_cur_stack(t_both_stacks *x, t_both_stacks *fake)
 // 	inst_darr->size = 0;
 // }
 
-void init_darr(void *darr, size_t elem_size, size_t capacity)
+// void init_darr(void *darr, size_t elem_size, size_t capacity)
+// {
+// 	darr->capacity = capacity;
+// 	((t_generic_darr *)darr)->size = 0;
+// 	((t_generic_darr *)darr)->arr = ft_calloc(capacity, elem_size);
+// 	if (((t_generic_darr *)darr)->arr == NULL)
+// 		exit(1);
+// }
+
+void	init_malloc_darr(t_darr *mallocs)
 {
-	((t_generic_darr *)darr)->capacity = capacity;
-	((t_generic_darr *)darr)->size = 0;
-	((t_generic_darr *)darr)->arr = ft_calloc(capacity, elem_size);
-	if (((t_generic_darr *)darr)->arr == NULL)
-		exit(1);
+	mallocs->capacity = 128;
+	mallocs->size = 0;
+	mallocs->arr = ft_calloc(mallocs->capacity, sizeof(void *));
+	if (mallocs->arr == NULL)
+		exit(-1);
 }
-
-// void	init_malloc_darr(t_darr *mallocs)
-// {
-// 	mallocs->capacity = 128;
-// 	mallocs->size = 0;
-// 	mallocs->arr = ft_calloc(mallocs->capacity, sizeof(void *));
-// 	if (mallocs->arr == NULL)
-// 		exit(-1);
-// }
-
-// int	ck_input_range(t_darr *mallocs, int argc, char *argv[], t_both_stacks *stacks)
-// {
-// 	t_stack		*a;
-// 	size_t		i;
-// 	long long	tmp;
-
-// 	a = &stacks->a;
-// 	i = 1;
-// 	while (i < argc)
-// 	{
-// 		tmp = ft_my_atoi(argv[i]);
-// 		if ((INT_MAX < tmp) || (tmp < INT_MIN))
-// 		{
-// 			free_mallocs(mallocs);
-// 			return (1);
-// 		}
-// 		a->arr[a->top - (i - 1)] = (int)tmp;
-// 		i++;
-// 	}
-// 	return (0);
-// }
 
 void	add_malloc(t_darr *c, void *mem)
 {
@@ -129,111 +91,93 @@ void	add_malloc(t_darr *c, void *mem)
 	c->size++;
 }
 
-int	get_first_num(char *argv[])
+int	is_already_sorted(int *arr, size_t sz)
 {
 	size_t	i;
-	char	*dup;
-	int		ret;
 
 	i = 0;
-	dup = ft_strdup(argv[1]);
-	while (dup[i] == ' ')
-		i++;
-	while (dup[i] && dup[i] != ' ')
-		i++;
-	dup[i] = 0;
-	ret = ft_atoi(dup);
-	free(dup);
-	return (ret);
-}
-
-int	already_sorted(char *argv[])
-{
-	size_t	i;
-	size_t	k;
-	int		tmp;
-	char	**split;
-
-	i = 1;
-	tmp = get_first_num(argv);
-	while (argv[i])
+	while (i < sz - 1)
 	{
-		split = ft_split(argv[i], ' ');
-		k = 0;
-		while (split[k])
-		{
-			if (ft_atoi(split[k]) < tmp)
-			{
-				free_split(split);
-				return (1);
-			}
-			tmp = ft_atoi(split[k]);
-			k++;
-		}
-		free_split(split);
-		split = NULL;
+		if (arr[i + 1] < arr[i])
+			return (0);
 		i++;
 	}
-	return (0);
+	return (1);
 }
 
-int	ck_sort_necessity(int argc, char *argv[])
+int	ck_sort_necessity(char **whole_split, int *int_arr, size_t len_arr)
 {
-	if (argc == 1)
-		return (1);
-	if (validate_input(argv) == 1)
+	if (is_int(whole_split) == 1 || find_dup_int(int_arr, len_arr) == 1)
 	{
+		free_split(whole_split);
+		free(int_arr);
 		write(2, "Error\n", 6);
 		return (1);
 	}
-	if (already_sorted(argv) == 0)
-		return (1);
+	if (is_already_sorted(int_arr, len_arr) == 1)
+	{
+		free_split(whole_split);
+		free(int_arr);
+		exit(0);
+	}
 	return (0);
 }
 
-void	fill_up_a(t_stack *a, t_int_darr *d_arr)
+void	fill_up_a(t_stack *a, int *arr, int len_arr)
 {
 	size_t	i;
 
 	i = 0;
-	while (0 < d_arr->size)
+	while (i < len_arr)
 	{
-		a->arr[i] = d_arr->arr[d_arr->size - 1];
+		a->arr[i] = arr[len_arr - 1 - i];
 		i++;
-		d_arr->size--;
 	}
 }
 
 int	main(int argc, char *argv[])
 {
-	t_int_darr		d_arr;
 	t_both_stacks	stacks;
 	t_both_stacks	fake_stacks;
 	t_darr			mallocs;
-	t_darr			*pmallocs;
+	char	**whole_split;
+	int		*int_arr;
+	size_t	len_arr;
 
-	if (ck_sort_necessity(argc, argv) == 1)
+	whole_split =  get_whole_split(argv);
+	len_arr = split_len(whole_split);
+	int_arr = str_arr_to_int_arr(whole_split, len_arr);
+	if (ck_sort_necessity(whole_split, int_arr, len_arr) == 1)
 		return (1);
-	pmallocs = &mallocs;
-	init_darr(pmallocs, sizeof(void *), 128);
-	// get_input(&d_arr, &stacks.a, argv);
-	init_stacks(pmallocs, &stacks, d_arr.size);
-	init_fake_stacks(pmallocs, &fake_stacks, stacks.a.size);
-	fill_up_a(&stacks.a, &d_arr);
-	// for (int i = 0; i < stacks.a.size; i++)
+	init_malloc_darr(&mallocs);
+	init_stacks(&mallocs, &stacks, len_arr);
+	init_stacks(&mallocs, &fake_stacks, len_arr);
+	fill_up_a(&stacks.a, int_arr, len_arr);
+	// for (int i = 0; i < len_arr; i++)
 	// {
 	// 	printf("%d ", stacks.a.arr[i]);
 	// }
 	// printf("\n");
-	normalize(pmallocs, &stacks.a);
-	ft_memcpy(fake_stacks.a.arr, stacks.a.arr, sizeof(int) * (argc - 1));
-	ft_memcpy(fake_stacks.b.arr, stacks.b.arr, sizeof(int) * (argc - 1));
-	radix_sort(get_ternary_len(argc - 1), &fake_stacks, 0);
+	normalize(&mallocs, &stacks.a);
+	if (stacks.a.size < 6)
+		simple_sort(&stacks);
+	ft_memcpy(fake_stacks.a.arr, stacks.a.arr, sizeof(int) * (len_arr));
+	ft_memcpy(fake_stacks.b.arr, stacks.b.arr, sizeof(int) * (len_arr));
+	radix_sort(get_ternary_len(len_arr), &fake_stacks, 0);
 	normalize_2(&stacks, &fake_stacks);
 	stacks.mode = 1;
-	radix_sort(get_ternary_len(argc - 1), &stacks, 0);
-	free_mallocs(pmallocs);
+	radix_sort(get_ternary_len(len_arr), &stacks, 0);
+	free_mallocs(&mallocs);
 	return (0);
+}
+
+void	simple_sort(t_both_stacks *stacks)
+{
+	if (stacks->a.size < 4)
+		sort_3();
+	simple_sort(stacks);
+	pa();
+	rra();
 }
 
 void	normalize(t_darr *mallocs, t_stack *a)
@@ -256,11 +200,6 @@ void	normalize(t_darr *mallocs, t_stack *a)
 		i++;
 	}
 	quick_sort(x, 0, a->size - 1);
-	for (int i = 0; i < a->size; i++)
-	{
-		printf("%d ", a->arr[i]);
-	}
-	printf("\n");
 	i = 0;
 	while (i < a->size)
 	{
@@ -273,7 +212,6 @@ void	normalize(t_darr *mallocs, t_stack *a)
 		printf("%d ", a->arr[i]);
 	}
 	printf("\n");
-	i = 0;
 }
 
 void	normalize_2(t_both_stacks *x, t_both_stacks *fake)
