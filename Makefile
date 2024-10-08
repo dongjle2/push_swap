@@ -1,7 +1,7 @@
 NAME := push_swap
 OBJDIR := obj
 
-SRCS_MAND := main.c helper.c instructions_a.c push_swap.c instructions_b.c quick_sort.c validate_input.c
+SRCS_MAND := main.c helper.c instructions_a.c malloc_manage.c instructions_b.c simple_sort.c sort_algo.c validate_input.c
 OBJS_MAND := $(SRCS_MAND:%.c=$(OBJDIR)/%.o)
 # SRCS_BONUS := fmt_s_bonus.c fmt_u_bonus.c fmt_x_bonus.c \
 # 				fmt_c_bonus.c fmt_p_bonus.c fmt_d_bonus.c \
@@ -10,7 +10,7 @@ OBJS_MAND := $(SRCS_MAND:%.c=$(OBJDIR)/%.o)
 # OBJS_BONUS := $(SRCS_BONUS:.c=.o)
 
 LIBFT := ./libft/libft.a
-# CFLAGS := -Wall -Wextra -Werror
+CFLAGS := -Wall -Wextra -Werror
 
 
 all: $(NAME)
@@ -25,10 +25,9 @@ $(OBJDIR):
 	mkdir -p $(OBJDIR)
 
 
-$(NAME): $(LIBFT) $(OBJS_LIST)
 # cc -g $(OBJS_MAND) -o $@ -L./libft -lft -fsanitize=address
-	cc $(OBJS_MAND) -o $@ -L./libft -lft 
-# cc $(CFLAGS) $(OBJS_MAND) -o $@ -L./libft -lft
+$(NAME): $(LIBFT) $(OBJS_LIST)
+	cc $(CFLAGS) $(OBJS_MAND) -o $@ -L./libft -lft
 
 $(OBJDIR)/%.o: %.c | $(OBJDIR)
 	cc $(CFLAGS) -c $< -o $@

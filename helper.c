@@ -6,7 +6,7 @@
 /*   By: dongjle2 <dongjle2@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 23:54:37 by dongjle2          #+#    #+#             */
-/*   Updated: 2024/10/06 21:04:28 by dongjle2         ###   ########.fr       */
+/*   Updated: 2024/10/08 16:06:19 by dongjle2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,33 +108,7 @@ void	free_mallocs(t_darr *mallocs)
 	free(mallocs->arr);
 }
 
-// int	get_input(t_int_darr *d_arr, t_stack *a, char *argv[])
-// {
-// 	size_t			i;
-// 	size_t			j;
-// 	char			**split;
-// 	unsigned int	ret;
-
-// 	i = 1;
-// 	init_int_darr(d_arr);
-// 	while (argv[i])
-// 	{
-// 		split = ft_split(argv[i], ' ');
-// 		j = 0;
-// 		while (split[j])
-// 		{
-// 			if (add_darr(d_arr, ft_atoi(split[j])) != 0)
-// 				return (-1);
-// 			j++;
-// 		}
-// 		free_split(split);
-// 		split = NULL;
-// 		i++;
-// 	}
-// 	return (ret);
-// }
-
-char	is_sorted(t_stack *x, char id)
+static char	is_sorted(t_stack *x, char id)
 {
 	int	up;
 	int	down;
@@ -158,88 +132,3 @@ char	is_sorted(t_stack *x, char id)
 	}
 	return (0);
 }
-
-// int	check_special_cases_a(t_stack *a)
-// {
-// 	char id;
-
-// 	id = 'a';
-// 	if (a->top < 1)
-// 		return (0);
-// 	else if (is_sorted(a, id) == 0)
-// 		return (0);
-// 	else if (a->top == 2)
-// 	{
-// 		sort_three_elements_a(a);
-// 		return (0);
-// 	}
-// 	return (-1);
-// }
-
-// int	check_special_cases_b(t_stack *a, t_stack *b)
-// {
-// 	char 	id;
-// 	int		i;
-
-// 	id = 'b';
-// 	i = b->top;
-// 	if (i <= 0)
-// 	{
-// 		pa(a, b);
-// 		return (0);
-// 	}
-// 	else if (is_sorted(b, id) == 0)
-// 	{
-// 		while (-1 < i--)
-// 			pa(a, b);
-// 		return (0);
-// 	}
-// 	else if (b->top == 2)
-// 	{
-// 		sort_three_elements_b(b);
-// 		while (-1 < i--)
-// 			pa(a, b);
-// 		return (0);
-// 	}
-// 	return (-1);
-// }
-
-// void	sort_three_elements_a(t_stack *x)
-// {
-// 	if (x->arr[2] < x->arr[0] && x->arr[0] < x->arr[1])
-// 	{
-// 		rra(x, 0);
-// 		sa(x, 0);
-// 	}
-// 	else if (x->arr[1] < x->arr[2] && x->arr[2] < x->arr[0])
-// 		sa(x, 0);
-// 	else if (x->arr[0] < x->arr[2] && x->arr[2] < x->arr[1])
-// 		rra(x, 0);
-// 	else if (x->arr[1] < x->arr[0] && x->arr[0] < x->arr[2])
-// 		ra(x, 0);
-// 	else if (x->arr[0] < x->arr[1] && x->arr[1] < x->arr[2])
-// 	{
-// 		ra(x, 0);
-// 		sa(x, 0);
-// 	}
-// }
-
-// void	sort_three_elements_b(t_stack *x)
-// {
-// 	if (x->arr[2] < x->arr[0] && x->arr[0] < x->arr[1])
-// 		ra(x, 0);
-// 	else if (x->arr[1] < x->arr[2] && x->arr[2] < x->arr[0])
-// 		rra(x, 0);
-// 	else if (x->arr[0] < x->arr[2] && x->arr[2] < x->arr[1])
-// 		sa(x, 0);
-// 	else if (x->arr[1] < x->arr[0] && x->arr[0] < x->arr[2])
-// 	{
-// 		rra(x, 0);
-// 		sa(x, 0);
-// 	}
-// 	else if (x->arr[2] < x->arr[1] && x->arr[1] < x->arr[0])
-// 	{
-// 		sa(x, 0);
-// 		rra(x, 0);
-// 	}
-// }

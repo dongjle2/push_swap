@@ -6,7 +6,7 @@
 /*   By: dongjle2 <dongjle2@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 21:27:22 by dongjle2          #+#    #+#             */
-/*   Updated: 2024/10/07 01:24:57 by dongjle2         ###   ########.fr       */
+/*   Updated: 2024/10/08 16:07:41 by dongjle2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,40 +71,31 @@ void	free_split(char **split)
 	free(split);
 }
 
-// void	init_int_darr(t_int_darr *darr)
+// void	add_darr(t_int_darr *darr, int x)
 // {
-// 	darr->capacity = 128;
-// 	darr->size = 0;
-// 	darr->arr = ft_calloc(darr->capacity, sizeof(int));
-// 	if (darr->arr == NULL)
-// 		exit(1);
+// 	int		*tmp_arr;
+// 	size_t	i;
+
+// 	i = 0;
+// 	if (darr->capacity == darr->size)
+// 	{
+// 		darr->capacity *= 2;
+// 		tmp_arr = ft_calloc(darr->capacity, sizeof(int));
+// 		if (tmp_arr == NULL)
+// 			exit(1);
+// 		while (i < darr->capacity / 2)
+// 		{
+// 			tmp_arr[i] = darr->arr[i];
+// 			i++;
+// 		}
+// 		free(darr->arr);
+// 		darr->arr = NULL;
+// 		darr->arr = tmp_arr;
+// 	}
+// 	darr->arr[darr->size] = x;
+// 	darr->size++;
+// 	return ;
 // }
-
-void	add_darr(t_int_darr *darr, int x)
-{
-	int		*tmp_arr;
-	size_t	i;
-
-	i = 0;
-	if (darr->capacity == darr->size)
-	{
-		darr->capacity *= 2;
-		tmp_arr = ft_calloc(darr->capacity, sizeof(int));
-		if (tmp_arr == NULL)
-			exit(1);
-		while (i < darr->capacity / 2)
-		{
-			tmp_arr[i] = darr->arr[i];
-			i++;
-		}
-		free(darr->arr);
-		darr->arr = NULL;
-		darr->arr = tmp_arr;
-	}
-	darr->arr[darr->size] = x;
-	darr->size++;
-	return ;
-}
 
 int	iterate_arr(int *arr, size_t sz)
 {
@@ -207,34 +198,6 @@ int	is_int(char **whole_split)
 	}
 	return (0);
 }
-/*
-int	is_int(char *argv[])
-{
-	size_t	i;
-	size_t	k;
-	char	**split;
-
-	i = 1;
-	while (argv[i])
-	{
-		split = ft_split(argv[i], ' ');
-		k = 0;
-		while (split[k])
-		{
-			if (is_signed_digit(split[k]) == 1 || ck_input_range(split[k]) == 1)
-			{
-				free_split(split);
-				return (1);
-			}
-			k++;
-		}
-		free_split(split);
-		split = NULL;
-		i++;
-	}
-	return (0);
-}
-*/
 
 int	*str_arr_to_int_arr(char **whole_split, size_t sz)
 {
@@ -245,27 +208,16 @@ int	*str_arr_to_int_arr(char **whole_split, size_t sz)
 	ret = ft_calloc(sz, sizeof(int));
 	while (whole_split[i])
 	{
-		ret[i] = ft_atoi(whole_split[i]);
+		ret[i] = atoi(whole_split[i]);
 		i++;
 	}
 	return (ret);
 }
-
-int	find_dup_int(int *int_split ,size_t sz)	//fix using sort
+//sort to find dup int
+int	find_dup_int(int *int_split ,size_t sz)
 {
 	int	ret;
 
 	ret = iterate_arr(int_split, sz);
 	return (ret);
 }
-
-// int	validate_input(char **whole_split)
-// {
-// 	if (is_int(whole_split) == 1 || find_dup_int(whole_split) == 1)
-// 	{
-// 		free_split(whole_split);
-// 		return (1);
-// 	}
-// 	free_split(whole_split);
-// 	return (0);
-// }
