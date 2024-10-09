@@ -6,7 +6,7 @@
 /*   By: dongjle2 <dongjle2@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 23:54:37 by dongjle2          #+#    #+#             */
-/*   Updated: 2024/10/08 16:06:19 by dongjle2         ###   ########.fr       */
+/*   Updated: 2024/10/09 00:21:29 by dongjle2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,28 +28,28 @@ void	init_stacks(t_darr *mallocs, t_both_stacks *x, size_t sz)
 	x->cur_stack = &x->a;
 }
 
-void	add_inst(t_inst_darr *c, const char *instr)
-{
-	char	**tmp_arr;
-	int		i;
+// void	add_inst(t_inst_darr *c, const char *instr)
+// {
+// 	char	**tmp_arr;
+// 	int		i;
 
-	i = 0;
-	if (c->capacity == c->size)
-	{
-		c->capacity *= 2;
-		tmp_arr = ft_calloc(c->capacity, sizeof(char *));
-		while (i < c->capacity / 2)
-		{
-			tmp_arr[i] = c->arr[i];
-			i++;
-		}
-		free(c->arr);
-		c->arr = NULL;
-		c->arr = tmp_arr;
-	}
-	c->arr[c->size] = (char *)instr;
-	c->size++;
-}
+// 	i = 0;
+// 	if (c->capacity == c->size)
+// 	{
+// 		c->capacity *= 2;
+// 		tmp_arr = ft_calloc(c->capacity, sizeof(char *));
+// 		while (i < c->capacity / 2)
+// 		{
+// 			tmp_arr[i] = c->arr[i];
+// 			i++;
+// 		}
+// 		free(c->arr);
+// 		c->arr = NULL;
+// 		c->arr = tmp_arr;
+// 	}
+// 	c->arr[c->size] = (char *)instr;
+// 	c->size++;
+// }
 
 static	int	isspace(const int c);
 
@@ -108,27 +108,27 @@ void	free_mallocs(t_darr *mallocs)
 	free(mallocs->arr);
 }
 
-static char	is_sorted(t_stack *x, char id)
-{
-	int	up;
-	int	down;
+// static char	is_sorted(t_stack *x, char id)
+// {
+// 	int	up;
+// 	int	down;
 
-	up = 1;
-	down = 0;
-	while (up <= x->top)
-	{
-		if (id == 'a')
-		{
-			if (x->arr[down] - x->arr[up] <= 0)
-				return (-1);
-		}
-		else
-		{
-			if (x->arr[up] - x->arr[down] <= 0)
-				return (-1);
-		}
-		up++;
-		down++;
-	}
-	return (0);
-}
+// 	up = 1;
+// 	down = 0;
+// 	while (up <= x->top)
+// 	{
+// 		if (id == 'a')
+// 		{
+// 			if (x->arr[down] - x->arr[up] <= 0)
+// 				return (-1);
+// 		}
+// 		else
+// 		{
+// 			if (x->arr[up] - x->arr[down] <= 0)
+// 				return (-1);
+// 		}
+// 		up++;
+// 		down++;
+// 	}
+// 	return (0);
+// }

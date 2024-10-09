@@ -46,6 +46,7 @@ void	setup_stacks(char *argv[], t_darr *mallocs, t_both_stacks *stacks, t_both_s
 			free(int_arr);
 			exit (1);
 		}
+	free(whole_split);
 	init_malloc_darr(mallocs);
 	init_stacks(mallocs, stacks, len_arr);
 	init_stacks(mallocs, fake_stacks, stacks->a.size);
@@ -128,7 +129,7 @@ void	normalize_2(t_both_stacks *x, t_both_stacks *fake)
 		cur = &x->b;
 		fake_cur = &fake->b;
 	}
-	else if (x->b.top == -1)
+	else
 	{
 		cur = &x->a;
 		fake_cur = &fake->a;
@@ -139,7 +140,7 @@ void	normalize_2(t_both_stacks *x, t_both_stacks *fake)
 		size_t j = 0;
 		for (size_t k = 0; k < cur->size; k++)
 		{
-			if (cur->arr[k] == i)
+			if (cur->arr[k] == (int)i)
 				j = k;
 		}
 		n[j] = fake_cur->arr[cur->size - i - 1];

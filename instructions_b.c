@@ -70,11 +70,10 @@ void	rrb(t_both_stacks *x, char mode)
 {
 	int		tmp;
 	int		i;
-	t_stack *a;
 	t_stack *b;
 
-	a = &x->a;
 	b = &x->b;
+	tmp = b->arr[0];
 	i = 0;
 	while (i < b->top)
 	{
