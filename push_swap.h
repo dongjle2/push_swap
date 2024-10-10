@@ -6,7 +6,7 @@
 /*   By: dongjle2 <dongjle2@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 02:43:26 by dongjle2          #+#    #+#             */
-/*   Updated: 2024/10/10 02:54:36 by dongjle2         ###   ########.fr       */
+/*   Updated: 2024/10/10 14:57:34 by dongjle2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 # include <limits.h>
 # include <unistd.h>
 # include <stdlib.h>
-// # include "typedef.h"
-# include <stdio.h>	//
 
 typedef struct s_stack
 {

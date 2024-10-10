@@ -6,11 +6,10 @@
 /*   By: dongjle2 <dongjle2@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 23:37:27 by dongjle2          #+#    #+#             */
-/*   Updated: 2024/10/10 02:29:18 by dongjle2         ###   ########.fr       */
+/*   Updated: 2024/10/10 14:57:54 by dongjle2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include <string.h>
 #include "push_swap.h"
 
 int	main(int argc, char *argv[])
