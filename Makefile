@@ -13,7 +13,8 @@ SRCS_MAND := main.c helper.c \
 			stack_utils.c \
 			mk_int_arr.c
 OBJS_MAND := $(SRCS_MAND:%.c=$(OBJDIR)/%.o)
-LIBFT := ./libft/libft.a
+LIBFT_DIR := ./libft
+LIBFT := libft.a
 CFLAGS := -g -Wall -Wextra -Werror
 
 all: $(NAME)
@@ -31,6 +32,9 @@ $(OBJDIR):
 $(NAME): $(LIBFT) $(OBJS_LIST)
 	cc $(CFLAGS) $(OBJS_MAND) -o $@ -L./libft -lft
 
+$(LIBFT): $(LIBFT_DIR)
+	make -C $(LIBFT_DIR)
+
 $(OBJDIR)/%.o: %.c | $(OBJDIR)
 	cc $(CFLAGS) -c $< -o $@
 
@@ -38,12 +42,14 @@ bonus: $(NAME)
 
 clean:
 	rm -f $(OBJDIR)/*.o
-	rm -r $(OBJDIR)
+	rm -rf $(OBJDIR)
+	rm -f $(LIBFT_DIR)/*.o
 
 re: fclean
 	make all
 
 fclean: clean
 	rm -f $(NAME)
+	rm -f $(LIBFT_DIR)/$(LIBFT)
 
 .PHONY : all bonus clean fclean re
