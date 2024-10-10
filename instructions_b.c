@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   instructions_b.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dongjle2 <dongjle2@student.42heilbronn.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/09 23:54:02 by dongjle2          #+#    #+#             */
+/*   Updated: 2024/10/10 03:02:01 by dongjle2         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-static void	swap(int *i, int *j)
+static void	swap(unsigned int *i, unsigned int *j)
 {
-	int tmp;
+	int	tmp;
 
-	if (i == j)
+	if (*i == *j)
 		return ;
 	tmp = *i;
 	*i = *j;
@@ -13,7 +25,7 @@ static void	swap(int *i, int *j)
 
 void	sb(t_both_stacks *x, char mode)
 {
-	t_stack *b;
+	t_stack	*b;
 
 	b = &x->b;
 	if (1 < b->top)
@@ -26,8 +38,8 @@ void	sb(t_both_stacks *x, char mode)
 
 void	pb(t_both_stacks *x, char mode)
 {
-	t_stack *a;
-	t_stack *b;
+	t_stack	*a;
+	t_stack	*b;
 
 	a = &x->a;
 	b = &x->b;
@@ -47,10 +59,8 @@ void	rb(t_both_stacks *x, char mode)
 {
 	int		tmp;
 	int		i;
-	t_stack *a;
-	t_stack *b;
+	t_stack	*b;
 
-	a = &x->a;
 	b = &x->b;
 	tmp = b->arr[b->top];
 	i = b->top - 1;
@@ -70,7 +80,7 @@ void	rrb(t_both_stacks *x, char mode)
 {
 	int		tmp;
 	int		i;
-	t_stack *b;
+	t_stack	*b;
 
 	b = &x->b;
 	tmp = b->arr[0];

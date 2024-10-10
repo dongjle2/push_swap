@@ -1,35 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnstr.c                                       :+:      :+:    :+:   */
+/*   ck_input.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dongjle2 <dongjle2@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/13 11:24:55 by dongjle2          #+#    #+#             */
-/*   Updated: 2024/10/09 23:17:39 by dongjle2         ###   ########.fr       */
+/*   Created: 2024/10/08 01:04:52 by dongjle2          #+#    #+#             */
+/*   Updated: 2024/10/09 23:18:00 by dongjle2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "push_swap.h"
 
-char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
+int	validate_input(char **whole_split, int *int_arr, size_t len_arr)
 {
-	size_t	len_needle;
+	if (is_int(whole_split) == 1 || find_dup_int(int_arr, len_arr) == 1)
+	{
+		write(2, "Error\n", 6);
+		return (1);
+	}
+	return (0);
+}
+
+int	is_sorted(int *arr, size_t sz)
+{
 	size_t	i;
-	size_t	l;
 
 	i = 0;
-	l = 0;
-	if (!*needle)
-		return ((char *)haystack);
-	len_needle = ft_strlen(needle);
-	while (l < len && haystack[i])
+	while (i < sz - 1)
 	{
-		if (haystack[i] == *needle && l + len_needle <= len)
-			if (ft_strncmp(haystack + i, needle, len_needle) == 0)
-				return ((char *)haystack + i);
+		if (arr[i + 1] < arr[i])
+			return (0);
 		i++;
-		l++;
 	}
-	return (NULL);
+	return (1);
 }

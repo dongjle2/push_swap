@@ -1,19 +1,32 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   instructions_a.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dongjle2 <dongjle2@student.42heilbronn.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/09 23:33:40 by dongjle2          #+#    #+#             */
+/*   Updated: 2024/10/10 03:00:29 by dongjle2         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-static void	swap(int *i, int *j)
+static void	swap(unsigned int *i, unsigned int *j)
 {
-	int tmp;
+	int	tmp;
 
-	if (i == j)
+	if (*i == *j)
 		return ;
 	tmp = *i;
 	*i = *j;
 	*j = tmp;
 }
 //volatile
+
 void	sa(t_both_stacks *x, char mode)
 {
-	t_stack *a;
+	t_stack	*a;
 
 	a = &x->a;
 	if (1 < a->top)
@@ -26,8 +39,8 @@ void	sa(t_both_stacks *x, char mode)
 
 void	pa(t_both_stacks *x, char mode)
 {
-	t_stack *a;
-	t_stack *b;
+	t_stack	*a;
+	t_stack	*b;
 
 	a = &x->a;
 	b = &x->b;
@@ -48,7 +61,7 @@ void	ra(t_both_stacks *x, char mode)
 {
 	int		tmp;
 	int		i;
-	t_stack *a;
+	t_stack	*a;
 
 	a = &x->a;
 	tmp = a->arr[a->top];
@@ -67,9 +80,9 @@ void	ra(t_both_stacks *x, char mode)
 
 void	rra(t_both_stacks *x, char mode)
 {
-	int	tmp;
-	int	i;
-	t_stack *a;
+	int		tmp;
+	int		i;
+	t_stack	*a;
 
 	a = &x->a;
 	tmp = a->arr[0];
