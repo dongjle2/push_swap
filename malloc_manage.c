@@ -6,7 +6,7 @@
 /*   By: dongjle2 <dongjle2@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 23:32:51 by dongjle2          #+#    #+#             */
-/*   Updated: 2024/10/09 23:16:55 by dongjle2         ###   ########.fr       */
+/*   Updated: 2024/10/13 02:00:59 by dongjle2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	*ft_manage_calloc(size_t count, size_t size, t_darr *mallocs)
 	void	*mem;
 
 	mem = ft_calloc(count, size);
+	if (mem == NULL)
+		malloc_fails(mallocs);
 	add_malloc(mallocs, mem);
 	return (mem);
 }
@@ -30,18 +32,17 @@ void	malloc_fails(t_darr *mallocs)
 void	add_malloc(t_darr *c, void *mem)
 {
 	void	**tmp_arr;
-	size_t	i;
 
-	i = 0;
 	if (c->capacity == c->size)
 	{
 		c->capacity *= 2;
 		tmp_arr = ft_calloc(c->capacity, sizeof(void *));
-		while (i < c->capacity / 2)
+		if (tmp_arr == NULL)
 		{
-			tmp_arr[i] = c->arr[i];
-			i++;
+			free(mem);
+			malloc_fails(c);
 		}
+		ft_memcpy(tmp_arr, c->arr, c->size * sizeof(void *));
 		free(c->arr);
 		c->arr = NULL;
 		c->arr = tmp_arr;
@@ -70,7 +71,9 @@ void	free_mallocs(t_darr *mallocs)
 	size_t	i;
 
 	i = 0;
-	while (i < mallocs->capacity)
+	// if (mallocs == NULL)
+	// 	return ;
+	while (i < mallocs->size)
 	{
 		free(mallocs->arr[i]);
 		i++;

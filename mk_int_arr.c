@@ -6,7 +6,7 @@
 /*   By: dongjle2 <dongjle2@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 23:49:27 by dongjle2          #+#    #+#             */
-/*   Updated: 2024/10/09 23:53:04 by dongjle2         ###   ########.fr       */
+/*   Updated: 2024/10/13 00:45:26 by dongjle2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,7 @@ int	cp_argv_to_arr(char **whole_split, char *argv[])
 	{
 		split = ft_split(argv[i], ' ');
 		if (split == NULL)
-		{
-			free_split(split);
 			return (1);
-		}
 		ret = cp_each_element(whole_split, split, &cnt);
 		free_split(split);
 		if (ret == 1)
@@ -109,7 +106,10 @@ char	**get_whole_split(char *argv[])
 		exit(1);
 	ret = cp_argv_to_arr(whole_split, argv);
 	if (ret == 1)
+	{
+		free_split(whole_split);
 		exit(1);
+	}
 	return (whole_split);
 }
 
@@ -120,6 +120,11 @@ int	*str_arr_to_int_arr(char **whole_split, size_t sz)
 
 	i = 0;
 	ret = ft_calloc(sz, sizeof(int));
+	if (ret == NULL)
+	{
+		free_split(whole_split);
+		exit(1);
+	}
 	while (whole_split[i])
 	{
 		ret[i] = ft_atoi(whole_split[i]);
