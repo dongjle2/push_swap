@@ -6,7 +6,7 @@
 /*   By: dongjle2 <dongjle2@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 23:32:51 by dongjle2          #+#    #+#             */
-/*   Updated: 2024/10/13 02:00:59 by dongjle2         ###   ########.fr       */
+/*   Updated: 2024/10/13 02:10:21 by dongjle2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,6 @@ void	free_mallocs(t_darr *mallocs)
 	size_t	i;
 
 	i = 0;
-	// if (mallocs == NULL)
-	// 	return ;
 	while (i < mallocs->size)
 	{
 		free(mallocs->arr[i]);
